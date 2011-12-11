@@ -24,7 +24,7 @@ enum {
 @synthesize player;
 @synthesize carryingBlock;
 
-- (id)init{
+- (id)initWithLevel:(NSString *)level{
     self = [super init];
     if(self){
         CCLayerColor *background = [[CCLayerColor alloc] initWithColor: ccc4(255, 255, 255, 255) width:480 height:320];
@@ -35,7 +35,7 @@ enum {
         
         facingLeft = YES;
         
-        self.map = [[TileMap alloc] initWithMap:@"Level2" gameScene:self];
+        self.map = [[TileMap alloc] initWithMap:level gameScene:self];
         if(playerX == -1 && playerY == -1){
             NSLog(@"Never set playerlocation. Defaulting to 1,1");
             playerX = 1; playerY = 1;
@@ -49,7 +49,7 @@ enum {
         
         self.carryingBlock = [[CCSprite alloc] initWithTexture:[map texture] rect:CGRectMake(64, 0, 32, 32)];
         [carryingBlock setPosition: ccp(240.0f, 192.0f)];
-        [carryingBlock setVisible: YES];
+        [carryingBlock setVisible: NO];
         [self addChild: carryingBlock];
         
         [map setOffsetToCenterOn: ccp(playerX, playerY)];
@@ -60,6 +60,10 @@ enum {
     return self;
 }
 
+- (void)winGame{
+    NSLog(@"Win game");
+}
+
 - (void)moveInDirection:(int)direction{
     if(direction == O_LEFT){
         if(![carryingBlock visible]){
@@ -68,6 +72,10 @@ enum {
                 playerX--;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
                 [self fall];
+            }else if(blockToLeft == 4){
+                playerX--;
+                [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                [self winGame];
             }
         }else{
             int blockToLeft = [map tileAtX:playerX-1 Y:playerY];
@@ -76,6 +84,10 @@ enum {
                 playerX--;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
                 [self fall];
+            }else if(blockToLeft == 4 && blockToLUp == 0){
+                playerX--;
+                [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                [self winGame];
             }
         }
         facingLeft = YES;
@@ -87,6 +99,10 @@ enum {
                 playerX++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
                 [self fall];
+            }else if(blockToRight == 4){
+                playerX++;
+                [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                [self winGame];
             }
         }else{
             int blockToRight = [map tileAtX:playerX+1 Y:playerY];
@@ -95,6 +111,10 @@ enum {
                 playerX++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
                 [self fall];
+            }else if(blockToRight == 4 && blockToRUp == 0){
+                playerX++;
+                [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                [self winGame];
             }
         }
         facingLeft = NO;
@@ -104,20 +124,28 @@ enum {
             if(facingLeft){
                 int blockToLeft = [map tileAtX:playerX-1 Y:playerY];
                 int blockToLUp = [map tileAtX:playerX-1 Y:playerY-1];
-                if(blockToLeft != 0 && blockToLUp == 0){
+                if(blockToLeft != 4 && blockToLeft != 0 && blockToLUp == 0){
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
-                }else{
-
+                }else if(blockToLeft != 0 && blockToLUp == 4){
+                    playerX--;
+                    playerY--;
+                    [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    [self winGame];
                 }
             }else{
                 int blockToRight = [map tileAtX:playerX+1 Y:playerY];
                 int blockToRUp = [map tileAtX:playerX+1 Y:playerY-1];
-                if(blockToRight != 0 && blockToRUp == 0){
+                if(blockToRight != 4 && blockToRight != 0 && blockToRUp == 0){
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                }else if(blockToRight != 0 && blockToRUp == 4){
+                    playerX++;
+                    playerY--;
+                    [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    [self winGame];
                 }
             }
         }else{
@@ -129,6 +157,11 @@ enum {
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                }else if(blockToLeft != 0 && blockToLUp == 4 && blockToLUUp == 0){
+                    playerX--;
+                    playerY--;
+                    [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    [self winGame];
                 }
             }else{
                 int blockToRight = [map tileAtX:playerX+1 Y:playerY];
@@ -138,6 +171,11 @@ enum {
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                }else if(blockToRight != 0 && blockToRUp == 4 && blockToRUUp == 0){
+                    playerX++;
+                    playerY--;
+                    [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    [self winGame];
                 }
             }
         }
@@ -196,6 +234,11 @@ enum {
         if(blockBelow != 0){
             [inputLayer setAcceptInput: YES];
             [self unschedule: @selector(attemptFall)];
+            if(blockBelow == 4){
+                playerY++;
+                [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                [self winGame];
+            }
         }else{
             playerY++;
             fallAttempts++;

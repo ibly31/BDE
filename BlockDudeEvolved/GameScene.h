@@ -25,7 +25,7 @@
     int playerX,playerY;
 }
 
-- (id)init;
+- (id)initWithLevel:(NSString *)level;
 
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) InputLayer *inputLayer;
@@ -33,6 +33,8 @@
 @property (nonatomic, retain) CCSprite *player;
 @property (nonatomic, retain) CCSprite *carryingBlock;
 @property int playerX,playerY;
+
+- (void)winGame;
 
 - (void)moveInDirection:(int)direction;
 

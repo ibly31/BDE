@@ -10,7 +10,7 @@
 
 #import "AppDelegate.h"
 #import "GameConfig.h"
-#import "GameScene.h"
+#import "MainMenuScene.h"
 #import "RootViewController.h"
 
 @implementation AppDelegate
@@ -110,9 +110,9 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-    GameScene *gs = [[GameScene alloc] init];
-	[[CCDirector sharedDirector] runWithScene: gs];
-    [gs release];
+    MainMenuScene *mms = [[MainMenuScene alloc] init];
+	[[CCDirector sharedDirector] runWithScene: mms];
+    [mms release];
 }
 
 

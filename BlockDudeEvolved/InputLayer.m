@@ -8,6 +8,7 @@
 
 #import "InputLayer.h"
 #import "GameScene.h"
+#import "PauseScene.h"
 
 enum {
     O_NONE=0,
@@ -18,6 +19,7 @@ enum {
 };
 
 @implementation InputLayer
+@synthesize pauseButton;
 @synthesize directionalStick;
 @synthesize acceptInput;
 
@@ -31,6 +33,10 @@ enum {
         self.directionalStick = [[CCSprite alloc] initWithFile: @"Gui.png" rect: CGRectMake(0, 0, 128, 128)];
         [directionalStick setPosition: ccp(480 - 64 - 16, 64 + 16)];
         [self addChild: directionalStick];
+        
+        self.pauseButton = [[CCSprite alloc] initWithTexture: [directionalStick texture] rect: CGRectMake(320, 224, 64, 32)];
+        [pauseButton setPosition: ccp(240, 304)];
+        [self addChild: pauseButton];
         
     }
     return self;
@@ -93,6 +99,13 @@ enum {
                 [self repeat];
                 [self schedule:@selector(repeat) interval:0.15f];
             }
+        }
+    }else{
+        if(location.x >= [pauseButton position].x - 40 && location.x <= [pauseButton position].x + 40 && location.y <= [pauseButton position].y + 24 && location.y >= [pauseButton position].y - 24){
+            PauseScene *ps = [[PauseScene alloc] init];
+            [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:ps]];
+            [ps release];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
         }
     }
 }

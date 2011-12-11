@@ -9,6 +9,9 @@
 #import "cocos2d.h"
 
 @interface InputLayer : CCLayer{
+    
+    CCSprite *pauseButton;
+    
     CCSprite *directionalStick;
     int orientation;
     
@@ -17,6 +20,7 @@
 
 - (id)init;
 
+@property (nonatomic, retain) CCSprite *pauseButton;
 @property (nonatomic, retain) CCSprite *directionalStick;
 @property BOOL acceptInput;
 

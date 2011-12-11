@@ -124,6 +124,10 @@
 		774FE5E7148EFF4E00C08ED9 /* TileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 774FE5E6148EFF4E00C08ED9 /* TileMap.m */; };
 		77695A411492BF59009CC782 /* Gui.png in Resources */ = {isa = PBXBuildFile; fileRef = 77695A3F1492BF59009CC782 /* Gui.png */; };
 		77695A421492BF59009CC782 /* Gui-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 77695A401492BF59009CC782 /* Gui-hd.png */; };
+		77B043A41493BF0F00020AF5 /* PauseScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043A31493BF0E00020AF5 /* PauseScene.m */; };
+		77B043AB1493BFDF00020AF5 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77B043AA1493BFDF00020AF5 /* Krungthep.ttf */; };
+		77B043B214944A4500020AF5 /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043B114944A4400020AF5 /* MainMenuScene.m */; };
+		77B043BA14944B5000020AF5 /* ChooseLevelScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043B914944B5000020AF5 /* ChooseLevelScene.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -352,6 +356,13 @@
 		774FE5E6148EFF4E00C08ED9 /* TileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMap.m; sourceTree = "<group>"; };
 		77695A3F1492BF59009CC782 /* Gui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gui.png; sourceTree = "<group>"; };
 		77695A401492BF59009CC782 /* Gui-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gui-hd.png"; path = "Resources/Textures/Retina/Gui-hd.png"; sourceTree = SOURCE_ROOT; };
+		77B043A21493BF0E00020AF5 /* PauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseScene.h; sourceTree = "<group>"; };
+		77B043A31493BF0E00020AF5 /* PauseScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseScene.m; sourceTree = "<group>"; };
+		77B043AA1493BFDF00020AF5 /* Krungthep.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Krungthep.ttf; sourceTree = "<group>"; };
+		77B043B014944A4400020AF5 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuScene.h; sourceTree = "<group>"; };
+		77B043B114944A4400020AF5 /* MainMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuScene.m; sourceTree = "<group>"; };
+		77B043B814944B5000020AF5 /* ChooseLevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLevelScene.h; sourceTree = "<group>"; };
+		77B043B914944B5000020AF5 /* ChooseLevelScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLevelScene.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -434,9 +445,8 @@
 				774FE5B8148EF80200C08ED9 /* AppDelegate.m */,
 				774FE5BA148EF80200C08ED9 /* RootViewController.h */,
 				774FE5BB148EF80200C08ED9 /* RootViewController.m */,
-				774FE5C6148EF84100C08ED9 /* GameScene.h */,
-				774FE5C7148EF84100C08ED9 /* GameScene.m */,
 				774FE5C0148EF80200C08ED9 /* GameConfig.h */,
+				77B043B314944A4E00020AF5 /* Scenes */,
 				774FE480148EF80000C08ED9 /* cocos2d */,
 				774FE571148EF80100C08ED9 /* CocosDenshion */,
 				774FE589148EF80200C08ED9 /* FontLabel */,
@@ -684,6 +694,7 @@
 		774FE5CA148EF99000C08ED9 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				77B043AA1493BFDF00020AF5 /* Krungthep.ttf */,
 				774FE5CB148EF99000C08ED9 /* Non-retina */,
 				774FE5D1148EF99000C08ED9 /* Retina */,
 			);
@@ -706,6 +717,21 @@
 				774FE5E2148EFA5E00C08ED9 /* Original-hd.png */,
 			);
 			path = Retina;
+			sourceTree = "<group>";
+		};
+		77B043B314944A4E00020AF5 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				77B043B014944A4400020AF5 /* MainMenuScene.h */,
+				77B043B114944A4400020AF5 /* MainMenuScene.m */,
+				774FE5C6148EF84100C08ED9 /* GameScene.h */,
+				774FE5C7148EF84100C08ED9 /* GameScene.m */,
+				77B043A21493BF0E00020AF5 /* PauseScene.h */,
+				77B043A31493BF0E00020AF5 /* PauseScene.m */,
+				77B043B814944B5000020AF5 /* ChooseLevelScene.h */,
+				77B043B914944B5000020AF5 /* ChooseLevelScene.m */,
+			);
+			name = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -776,6 +802,7 @@
 				77284F41149019B200D63D79 /* Level9.txt in Resources */,
 				77695A411492BF59009CC782 /* Gui.png in Resources */,
 				77695A421492BF59009CC782 /* Gui-hd.png in Resources */,
+				77B043AB1493BFDF00020AF5 /* Krungthep.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,6 +904,9 @@
 				774FE5C8148EF84100C08ED9 /* GameScene.m in Sources */,
 				774FE5E7148EFF4E00C08ED9 /* TileMap.m in Sources */,
 				77284F441490422C00D63D79 /* InputLayer.m in Sources */,
+				77B043A41493BF0F00020AF5 /* PauseScene.m in Sources */,
+				77B043B214944A4500020AF5 /* MainMenuScene.m in Sources */,
+				77B043BA14944B5000020AF5 /* ChooseLevelScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
