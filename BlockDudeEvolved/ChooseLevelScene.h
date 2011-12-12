@@ -26,6 +26,22 @@
 - (void)playLevel4;
 - (void)playLevel5;
 - (void)playLevel6;
+- (void)playLevel7;
+- (void)playLevel8;
+- (void)playLevel9;
+- (void)playLevel10;
+- (void)playLevel11;
+- (void)playLevel12;
+- (void)playLevel13;
+- (void)playLevel14;
+- (void)playLevel15;
+- (void)playLevel16;
+- (void)playLevel17;
+- (void)playLevel18;
+- (void)playLevel19;
+- (void)playLevel20;
+- (void)playLevel21;
+- (void)playLevel22;
 
 
 @end

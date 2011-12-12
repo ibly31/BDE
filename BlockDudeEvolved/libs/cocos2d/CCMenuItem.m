@@ -509,6 +509,11 @@ enum {
 -(void) selected
 {
 	[super selected];
+    
+    [self stopActionByTag:kZoomActionTag];
+    CCAction *zoomAction = [CCScaleTo actionWithDuration:0.1f scale:1.2f];
+    zoomAction.tag = kZoomActionTag;
+    [self runAction:zoomAction];
 
 	if( selectedImage_ ) {
 		[normalImage_ setVisible:NO];
@@ -516,7 +521,6 @@ enum {
 		[disabledImage_ setVisible:NO];
 		
 	} else { // there is not selected image
-	
 		[normalImage_ setVisible:YES];
 		[selectedImage_ setVisible:NO];
 		[disabledImage_ setVisible:NO];		
@@ -526,6 +530,10 @@ enum {
 -(void) unselected
 {
 	[super unselected];
+    [self stopActionByTag:kZoomActionTag];
+    CCAction *zoomAction = [CCScaleTo actionWithDuration:0.1f scale:1.0f];
+    zoomAction.tag = kZoomActionTag;
+    [self runAction:zoomAction];
 	[normalImage_ setVisible:YES];
 	[selectedImage_ setVisible:NO];
 	[disabledImage_ setVisible:NO];

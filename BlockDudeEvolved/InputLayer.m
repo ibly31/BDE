@@ -29,13 +29,19 @@ enum {
         self.isTouchEnabled = YES;
         self.acceptInput = YES;
         
+        waitTime = 0.1f;
+        firstWaitTime = 0.3f;
+        didFirstWaits = 0;
+        
         orientation = O_NONE;
         self.directionalStick = [[CCSprite alloc] initWithFile: @"Gui.png" rect: CGRectMake(0, 0, 128, 128)];
         [directionalStick setPosition: ccp(480 - 64 - 16, 64 + 16)];
+        [directionalStick setOpacity: 220];
         [self addChild: directionalStick];
         
         self.pauseButton = [[CCSprite alloc] initWithTexture: [directionalStick texture] rect: CGRectMake(320, 224, 64, 32)];
         [pauseButton setPosition: ccp(240, 304)];
+        [pauseButton setOpacity: 220];
         [self addChild: pauseButton];
         
     }
@@ -46,6 +52,13 @@ enum {
     if(self.acceptInput){
         if(orientation != O_NONE){
             [(GameScene *)parent_ moveInDirection: orientation];
+            if(didFirstWaits == 1){                                     // dfw = 2 is before first repeat, dfw = 1 is after big wait
+                [self unschedule: @selector(repeat)];                   // dfw = 0 is after big wait, normal repeat
+                [self schedule: @selector(repeat) interval:waitTime];
+                didFirstWaits = 0;
+            }else if(didFirstWaits == 2){
+                didFirstWaits = 1;
+            }
         }
     }
 }
@@ -76,33 +89,37 @@ enum {
     CGPoint location = [[CCDirector sharedDirector] convertToGL: [touch locationInView: touch.view]];
 
     CGPoint locationRelative = ccp(location.x - directionalStick.position.x, location.y - directionalStick.position.y);
-    if(locationRelative.x <= 64 && locationRelative.x >= -64 && locationRelative.y <= 64 && locationRelative.y >= -64){
+    if(locationRelative.x <= 80 && locationRelative.x >= -80 && locationRelative.y <= 80 && locationRelative.y >= -80){
         if(orientation == O_NONE){
             if(locationRelative.y >= 22){
                 [self stickDown: O_UP];
                 orientation = O_UP;
+                didFirstWaits = 2;
                 [self repeat];
-                [self schedule:@selector(repeat) interval:0.15f];
+                [self schedule:@selector(repeat) interval:firstWaitTime];
             }else if(locationRelative.y <= -22){
                 [self stickDown: O_DOWN];
                 orientation = O_DOWN;
+                didFirstWaits = 2;
                 [self repeat];
-                [self schedule:@selector(repeat) interval:0.15f];
+                [self schedule:@selector(repeat) interval:firstWaitTime];
             }else if(locationRelative.x >= 22){
                 [self stickDown: O_RIGHT];
                 orientation = O_RIGHT;
+                didFirstWaits = 2;
                 [self repeat];
-                [self schedule:@selector(repeat) interval:0.15f];
+                [self schedule:@selector(repeat) interval:firstWaitTime];
             }else if(locationRelative.x <= -22){
                 [self stickDown: O_LEFT];
                 orientation = O_LEFT;
+                didFirstWaits = 2;
                 [self repeat];
-                [self schedule:@selector(repeat) interval:0.15f];
+                [self schedule:@selector(repeat) interval:firstWaitTime];
             }
         }
     }else{
         if(location.x >= [pauseButton position].x - 40 && location.x <= [pauseButton position].x + 40 && location.y <= [pauseButton position].y + 24 && location.y >= [pauseButton position].y - 24){
-            PauseScene *ps = [[PauseScene alloc] init];
+            PauseScene *ps = [[PauseScene alloc] initWithGameScene: (GameScene *)parent_];
             [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:ps]];
             [ps release];
             [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];

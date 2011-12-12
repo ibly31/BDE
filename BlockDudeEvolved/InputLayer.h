@@ -16,6 +16,11 @@
     int orientation;
     
     BOOL acceptInput;
+    
+    
+    float waitTime;
+    float firstWaitTime;
+    int didFirstWaits;
 }
 
 - (id)init;

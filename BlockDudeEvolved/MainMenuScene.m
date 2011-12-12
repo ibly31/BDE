@@ -10,18 +10,24 @@
 #import "ChooseLevelScene.h"
 
 @implementation MainMenuScene
+@synthesize titleLabel;
 @synthesize menu;
 
 - (id)init{
     self = [super init];
     if(self){
-        CCLabelTTF *playGame = [[CCLabelTTF alloc] initWithString:@"Play" fontName:@"Krungthep" fontSize:24.0f];
-        CCMenuItemLabel *playGameLabel = [[CCMenuItemLabel alloc] initWithLabel:playGame target:self selector:@selector(playGame)];
-        [playGameLabel setPosition: ccp(10, 35)];
         
-        CCLabelTTF *options = [[CCLabelTTF alloc] initWithString:@"Options" fontName:@"Krungthep" fontSize:24.0f];
+        self.titleLabel = [[CCLabelTTF alloc] initWithString:@"Block Dude Evolved" fontName:@"Krungthep" fontSize:36];
+        [titleLabel setPosition: ccp(240, 280)];
+        [self addChild: titleLabel];
+        
+        CCLabelTTF *playGame = [[CCLabelTTF alloc] initWithString:@"Play" fontName:@"Krungthep" fontSize:28];
+        CCMenuItemLabel *playGameLabel = [[CCMenuItemLabel alloc] initWithLabel:playGame target:self selector:@selector(playGame)];
+        [playGameLabel setPosition: ccp(10, 0)];
+        
+        CCLabelTTF *options = [[CCLabelTTF alloc] initWithString:@"Options" fontName:@"Krungthep" fontSize:28];
         CCMenuItemLabel *optionsLabel = [[CCMenuItemLabel alloc] initWithLabel:options target:self selector:@selector(options)];
-        [optionsLabel setPosition: ccp(10, -38)];
+        [optionsLabel setPosition: ccp(10, -58)];
         
         //10,-113
         

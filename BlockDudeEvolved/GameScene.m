@@ -7,6 +7,7 @@
 //
 
 #import "GameScene.h"
+#import "GameOverScene.h"
 #import "InputLayer.h"
 
 enum {
@@ -24,9 +25,17 @@ enum {
 @synthesize player;
 @synthesize carryingBlock;
 
+@synthesize currentLevel;
+
 - (id)initWithLevel:(NSString *)level{
     self = [super init];
     if(self){
+        
+        self.currentLevel = level;
+        
+        moves = 0;
+        startInterval = [[NSDate date] timeIntervalSince1970];
+        
         CCLayerColor *background = [[CCLayerColor alloc] initWithColor: ccc4(255, 255, 255, 255) width:480 height:320];
         [self addChild: background];
         
@@ -35,7 +44,7 @@ enum {
         
         facingLeft = YES;
         
-        self.map = [[TileMap alloc] initWithMap:level gameScene:self];
+        self.map = [[TileMap alloc] initWithMap:currentLevel gameScene:self];
         if(playerX == -1 && playerY == -1){
             NSLog(@"Never set playerlocation. Defaulting to 1,1");
             playerX = 1; playerY = 1;
@@ -61,7 +70,11 @@ enum {
 }
 
 - (void)winGame{
-    NSLog(@"Win game");
+    NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
+    
+    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval];
+    [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gos]];
+    [gos release];
 }
 
 - (void)moveInDirection:(int)direction{
@@ -71,10 +84,12 @@ enum {
             if(blockToLeft == 0){
                 playerX--;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self fall];
             }else if(blockToLeft == 4){
                 playerX--;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self winGame];
             }
         }else{
@@ -83,10 +98,12 @@ enum {
             if(blockToLeft == 0 && blockToLUp == 0){
                 playerX--;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self fall];
             }else if(blockToLeft == 4 && blockToLUp == 0){
                 playerX--;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self winGame];
             }
         }
@@ -98,10 +115,12 @@ enum {
             if(blockToRight == 0){
                 playerX++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self fall];
             }else if(blockToRight == 4){
                 playerX++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self winGame];
             }
         }else{
@@ -110,10 +129,12 @@ enum {
             if(blockToRight == 0 && blockToRUp == 0){
                 playerX++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self fall];
             }else if(blockToRight == 4 && blockToRUp == 0){
                 playerX++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self winGame];
             }
         }
@@ -128,10 +149,12 @@ enum {
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                 }else if(blockToLeft != 0 && blockToLUp == 4){
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                     [self winGame];
                 }
             }else{
@@ -141,10 +164,12 @@ enum {
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                 }else if(blockToRight != 0 && blockToRUp == 4){
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                     [self winGame];
                 }
             }
@@ -157,10 +182,12 @@ enum {
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                 }else if(blockToLeft != 0 && blockToLUp == 4 && blockToLUUp == 0){
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                     [self winGame];
                 }
             }else{
@@ -171,10 +198,12 @@ enum {
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                 }else if(blockToRight != 0 && blockToRUp == 4 && blockToRUUp == 0){
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                    moves++;
                     [self winGame];
                 }
             }
@@ -187,10 +216,12 @@ enum {
                 if(blockToLeft == 0){
                     [carryingBlock setVisible: NO];
                     [map setTileAtX:playerX-1 Y:playerY value:2];
+                    moves++;
                     [self blockFall: ccp(playerX-1, playerY)];
                 }else if(blockToLUp == 0){
                     [carryingBlock setVisible: NO];
                     [map setTileAtX:playerX-1 Y:playerY-1 value:2];
+                    moves++;
                     // No need to blockfall because we already know the block below is != 0
                 }
             }else{
@@ -199,10 +230,12 @@ enum {
                 if(blockToRight == 0){
                     [carryingBlock setVisible: NO];
                     [map setTileAtX:playerX+1 Y:playerY value:2];
+                    moves++;
                     [self blockFall: ccp(playerX+1, playerY)];
                 }else if(blockToRUp == 0){
                     [carryingBlock setVisible: NO];
                     [map setTileAtX:playerX+1 Y:playerY-1 value:2];
+                    moves++;
                     // No need to blockfall because we already know the block below is != 0
                 }
             }
@@ -214,6 +247,7 @@ enum {
                 if(blockToLeft == 2 && blockToLUp == 0 && blockAbove == 0){
                     [map setTileAtX:playerX-1 Y:playerY value:0];
                     [carryingBlock setVisible: YES];
+                    moves++;
                 }
             }else{
                 int blockToRight = [map tileAtX:playerX+1 Y:playerY];
@@ -222,6 +256,7 @@ enum {
                 if(blockToRight == 2 && blockToRUp == 0 && blockAbove == 0){
                     [map setTileAtX:playerX+1 Y:playerY value:0];
                     [carryingBlock setVisible: YES];
+                    moves++;
                 }
             }
         }
@@ -237,12 +272,14 @@ enum {
             if(blockBelow == 4){
                 playerY++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
+                moves++;
                 [self winGame];
             }
         }else{
             playerY++;
             fallAttempts++;
             [map setOffsetToCenterOn: ccp(playerX, playerY)];
+            moves++;
         }
     }else{
         NSLog(@"Fall attempts > 30, exitting");
@@ -255,7 +292,7 @@ enum {
     if(blockUnder == 0){
         fallAttempts = 0;           // Provide a break to the infinite loop
         [inputLayer setAcceptInput: NO];
-        [self schedule: @selector(attemptFall) interval: 0.05f];
+        [self schedule: @selector(attemptFall) interval: 0.03f];
     }
 }
 
@@ -281,7 +318,7 @@ enum {
     currentBlockFall = block;
     int blockUnder = [map tileAtX:currentBlockFall.x Y:currentBlockFall.y+1];
     if(blockUnder == 0){
-        fallAttempts = 0;           // Provide a break to the infinite loop
+        fallAttempts = 0;                   // Provide a break to the infinite loop
         [inputLayer setAcceptInput: NO];
         [self schedule: @selector(blockAttemptFall) interval: 0.05f];
     }

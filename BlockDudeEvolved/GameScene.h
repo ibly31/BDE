@@ -14,8 +14,13 @@
     TileMap *map;
     InputLayer *inputLayer;
     
+    int moves;
+    NSTimeInterval startInterval;
+    
     CCSprite *player;
     CCSprite *carryingBlock;
+    
+    NSString *currentLevel;
     
     BOOL facingLeft;
     
@@ -32,6 +37,7 @@
 
 @property (nonatomic, retain) CCSprite *player;
 @property (nonatomic, retain) CCSprite *carryingBlock;
+@property (nonatomic, retain) NSString *currentLevel;
 @property int playerX,playerY;
 
 - (void)winGame;

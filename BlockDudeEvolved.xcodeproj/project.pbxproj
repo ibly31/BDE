@@ -19,6 +19,7 @@
 		77284F40149019B200D63D79 /* Level8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77284F35149019B200D63D79 /* Level8.txt */; };
 		77284F41149019B200D63D79 /* Level9.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77284F36149019B200D63D79 /* Level9.txt */; };
 		77284F441490422C00D63D79 /* InputLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 77284F431490422C00D63D79 /* InputLayer.m */; };
+		774007781495670F00EE4CE9 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 774007771495670F00EE4CE9 /* GameOverScene.m */; };
 		774FE45C148EF80000C08ED9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774FE45B148EF80000C08ED9 /* QuartzCore.framework */; };
 		774FE45E148EF80000C08ED9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774FE45D148EF80000C08ED9 /* OpenGLES.framework */; };
 		774FE460148EF80000C08ED9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774FE45F148EF80000C08ED9 /* OpenAL.framework */; };
@@ -128,6 +129,17 @@
 		77B043AB1493BFDF00020AF5 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77B043AA1493BFDF00020AF5 /* Krungthep.ttf */; };
 		77B043B214944A4500020AF5 /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043B114944A4400020AF5 /* MainMenuScene.m */; };
 		77B043BA14944B5000020AF5 /* ChooseLevelScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043B914944B5000020AF5 /* ChooseLevelScene.m */; };
+		77F6E7BA1494FBB00044E193 /* Level12.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7AF1494FBB00044E193 /* Level12.txt */; };
+		77F6E7BB1494FBB00044E193 /* Level13.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B01494FBB00044E193 /* Level13.txt */; };
+		77F6E7BC1494FBB00044E193 /* Level14.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B11494FBB00044E193 /* Level14.txt */; };
+		77F6E7BD1494FBB00044E193 /* Level15.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B21494FBB00044E193 /* Level15.txt */; };
+		77F6E7BE1494FBB00044E193 /* Level16.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B31494FBB00044E193 /* Level16.txt */; };
+		77F6E7BF1494FBB00044E193 /* Level17.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B41494FBB00044E193 /* Level17.txt */; };
+		77F6E7C01494FBB00044E193 /* Level18.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B51494FBB00044E193 /* Level18.txt */; };
+		77F6E7C11494FBB00044E193 /* Level19.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B61494FBB00044E193 /* Level19.txt */; };
+		77F6E7C21494FBB00044E193 /* Level20.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B71494FBB00044E193 /* Level20.txt */; };
+		77F6E7C31494FBB00044E193 /* Level21.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B81494FBB00044E193 /* Level21.txt */; };
+		77F6E7C41494FBB00044E193 /* Level22.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77F6E7B91494FBB00044E193 /* Level22.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,6 +156,8 @@
 		77284F36149019B200D63D79 /* Level9.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level9.txt; sourceTree = "<group>"; };
 		77284F421490422B00D63D79 /* InputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputLayer.h; sourceTree = "<group>"; };
 		77284F431490422C00D63D79 /* InputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayer.m; sourceTree = "<group>"; };
+		774007761495670F00EE4CE9 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
+		774007771495670F00EE4CE9 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		774FE457148EF80000C08ED9 /* BlockDudeEvolved.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockDudeEvolved.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774FE45B148EF80000C08ED9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		774FE45D148EF80000C08ED9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -363,6 +377,17 @@
 		77B043B114944A4400020AF5 /* MainMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuScene.m; sourceTree = "<group>"; };
 		77B043B814944B5000020AF5 /* ChooseLevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLevelScene.h; sourceTree = "<group>"; };
 		77B043B914944B5000020AF5 /* ChooseLevelScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLevelScene.m; sourceTree = "<group>"; };
+		77F6E7AF1494FBB00044E193 /* Level12.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level12.txt; sourceTree = "<group>"; };
+		77F6E7B01494FBB00044E193 /* Level13.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level13.txt; sourceTree = "<group>"; };
+		77F6E7B11494FBB00044E193 /* Level14.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level14.txt; sourceTree = "<group>"; };
+		77F6E7B21494FBB00044E193 /* Level15.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level15.txt; sourceTree = "<group>"; };
+		77F6E7B31494FBB00044E193 /* Level16.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level16.txt; sourceTree = "<group>"; };
+		77F6E7B41494FBB00044E193 /* Level17.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level17.txt; sourceTree = "<group>"; };
+		77F6E7B51494FBB00044E193 /* Level18.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level18.txt; sourceTree = "<group>"; };
+		77F6E7B61494FBB00044E193 /* Level19.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level19.txt; sourceTree = "<group>"; };
+		77F6E7B71494FBB00044E193 /* Level20.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level20.txt; sourceTree = "<group>"; };
+		77F6E7B81494FBB00044E193 /* Level21.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level21.txt; sourceTree = "<group>"; };
+		77F6E7B91494FBB00044E193 /* Level22.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level22.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,8 +413,6 @@
 			isa = PBXGroup;
 			children = (
 				77284F2C149019B200D63D79 /* Level1.txt */,
-				77284F2D149019B200D63D79 /* Level10.txt */,
-				77284F2E149019B200D63D79 /* Level11.txt */,
 				77284F2F149019B200D63D79 /* Level2.txt */,
 				77284F30149019B200D63D79 /* Level3.txt */,
 				77284F31149019B200D63D79 /* Level4.txt */,
@@ -398,6 +421,19 @@
 				77284F34149019B200D63D79 /* Level7.txt */,
 				77284F35149019B200D63D79 /* Level8.txt */,
 				77284F36149019B200D63D79 /* Level9.txt */,
+				77284F2D149019B200D63D79 /* Level10.txt */,
+				77284F2E149019B200D63D79 /* Level11.txt */,
+				77F6E7AF1494FBB00044E193 /* Level12.txt */,
+				77F6E7B01494FBB00044E193 /* Level13.txt */,
+				77F6E7B11494FBB00044E193 /* Level14.txt */,
+				77F6E7B21494FBB00044E193 /* Level15.txt */,
+				77F6E7B31494FBB00044E193 /* Level16.txt */,
+				77F6E7B41494FBB00044E193 /* Level17.txt */,
+				77F6E7B51494FBB00044E193 /* Level18.txt */,
+				77F6E7B61494FBB00044E193 /* Level19.txt */,
+				77F6E7B71494FBB00044E193 /* Level20.txt */,
+				77F6E7B81494FBB00044E193 /* Level21.txt */,
+				77F6E7B91494FBB00044E193 /* Level22.txt */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -730,6 +766,8 @@
 				77B043A31493BF0E00020AF5 /* PauseScene.m */,
 				77B043B814944B5000020AF5 /* ChooseLevelScene.h */,
 				77B043B914944B5000020AF5 /* ChooseLevelScene.m */,
+				774007761495670F00EE4CE9 /* GameOverScene.h */,
+				774007771495670F00EE4CE9 /* GameOverScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -803,6 +841,17 @@
 				77695A411492BF59009CC782 /* Gui.png in Resources */,
 				77695A421492BF59009CC782 /* Gui-hd.png in Resources */,
 				77B043AB1493BFDF00020AF5 /* Krungthep.ttf in Resources */,
+				77F6E7BA1494FBB00044E193 /* Level12.txt in Resources */,
+				77F6E7BB1494FBB00044E193 /* Level13.txt in Resources */,
+				77F6E7BC1494FBB00044E193 /* Level14.txt in Resources */,
+				77F6E7BD1494FBB00044E193 /* Level15.txt in Resources */,
+				77F6E7BE1494FBB00044E193 /* Level16.txt in Resources */,
+				77F6E7BF1494FBB00044E193 /* Level17.txt in Resources */,
+				77F6E7C01494FBB00044E193 /* Level18.txt in Resources */,
+				77F6E7C11494FBB00044E193 /* Level19.txt in Resources */,
+				77F6E7C21494FBB00044E193 /* Level20.txt in Resources */,
+				77F6E7C31494FBB00044E193 /* Level21.txt in Resources */,
+				77F6E7C41494FBB00044E193 /* Level22.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,6 +956,7 @@
 				77B043A41493BF0F00020AF5 /* PauseScene.m in Sources */,
 				77B043B214944A4500020AF5 /* MainMenuScene.m in Sources */,
 				77B043BA14944B5000020AF5 /* ChooseLevelScene.m in Sources */,
+				774007781495670F00EE4CE9 /* GameOverScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
