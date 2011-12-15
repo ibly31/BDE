@@ -16,7 +16,6 @@
 - (id)init{
     self = [super init];
     if(self){
-        
         self.titleLabel = [[CCLabelTTF alloc] initWithString:@"Block Dude Evolved" fontName:@"Krungthep" fontSize:36];
         [titleLabel setPosition: ccp(240, 280)];
         [self addChild: titleLabel];

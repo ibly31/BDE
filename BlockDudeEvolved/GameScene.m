@@ -27,7 +27,7 @@ enum {
 
 @synthesize currentLevel;
 
-- (id)initWithLevel:(NSString *)level{
+- (id)initWithLevel:(int)level{
     self = [super init];
     if(self){
         
@@ -72,7 +72,7 @@ enum {
 - (void)winGame{
     NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
     
-    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval];
+    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval levelNumber:currentLevel];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gos]];
     [gos release];
 }

@@ -13,9 +13,9 @@
 @synthesize mapWidth;
 @synthesize mapHeight;
 
-- (id)initWithMap:(NSString *)map gameScene:(GameScene *)gs{
+- (id)initWithMap:(int)map gameScene:(GameScene *)gs{
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:map ofType:@"txt"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%i",map] ofType:@"txt"];
     NSString *string = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 	if(!string){
 		NSLog(@"Could not load file %@", map);

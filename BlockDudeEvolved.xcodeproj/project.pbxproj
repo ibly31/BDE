@@ -20,6 +20,8 @@
 		77284F41149019B200D63D79 /* Level9.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77284F36149019B200D63D79 /* Level9.txt */; };
 		77284F441490422C00D63D79 /* InputLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 77284F431490422C00D63D79 /* InputLayer.m */; };
 		774007781495670F00EE4CE9 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 774007771495670F00EE4CE9 /* GameOverScene.m */; };
+		774A378314996AA600D6A2C7 /* Buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = 774A378114996AA600D6A2C7 /* Buttons.png */; };
+		774A378414996AA600D6A2C7 /* Buttons-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 774A378214996AA600D6A2C7 /* Buttons-hd.png */; };
 		774FE45C148EF80000C08ED9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774FE45B148EF80000C08ED9 /* QuartzCore.framework */; };
 		774FE45E148EF80000C08ED9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774FE45D148EF80000C08ED9 /* OpenGLES.framework */; };
 		774FE460148EF80000C08ED9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774FE45F148EF80000C08ED9 /* OpenAL.framework */; };
@@ -125,6 +127,7 @@
 		774FE5E7148EFF4E00C08ED9 /* TileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 774FE5E6148EFF4E00C08ED9 /* TileMap.m */; };
 		77695A411492BF59009CC782 /* Gui.png in Resources */ = {isa = PBXBuildFile; fileRef = 77695A3F1492BF59009CC782 /* Gui.png */; };
 		77695A421492BF59009CC782 /* Gui-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 77695A401492BF59009CC782 /* Gui-hd.png */; };
+		7789FC4014970335006F720B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789FC3F14970335006F720B /* GameKit.framework */; };
 		77B043A41493BF0F00020AF5 /* PauseScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043A31493BF0E00020AF5 /* PauseScene.m */; };
 		77B043AB1493BFDF00020AF5 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77B043AA1493BFDF00020AF5 /* Krungthep.ttf */; };
 		77B043B214944A4500020AF5 /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B043B114944A4400020AF5 /* MainMenuScene.m */; };
@@ -158,6 +161,8 @@
 		77284F431490422C00D63D79 /* InputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayer.m; sourceTree = "<group>"; };
 		774007761495670F00EE4CE9 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		774007771495670F00EE4CE9 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
+		774A378114996AA600D6A2C7 /* Buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Buttons.png; sourceTree = "<group>"; };
+		774A378214996AA600D6A2C7 /* Buttons-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Buttons-hd.png"; path = "Resources/Textures/Retina/Buttons-hd.png"; sourceTree = SOURCE_ROOT; };
 		774FE457148EF80000C08ED9 /* BlockDudeEvolved.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockDudeEvolved.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774FE45B148EF80000C08ED9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		774FE45D148EF80000C08ED9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -370,6 +375,7 @@
 		774FE5E6148EFF4E00C08ED9 /* TileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMap.m; sourceTree = "<group>"; };
 		77695A3F1492BF59009CC782 /* Gui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gui.png; sourceTree = "<group>"; };
 		77695A401492BF59009CC782 /* Gui-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gui-hd.png"; path = "Resources/Textures/Retina/Gui-hd.png"; sourceTree = SOURCE_ROOT; };
+		7789FC3F14970335006F720B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		77B043A21493BF0E00020AF5 /* PauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseScene.h; sourceTree = "<group>"; };
 		77B043A31493BF0E00020AF5 /* PauseScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseScene.m; sourceTree = "<group>"; };
 		77B043AA1493BFDF00020AF5 /* Krungthep.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Krungthep.ttf; sourceTree = "<group>"; };
@@ -403,6 +409,7 @@
 				774FE466148EF80000C08ED9 /* UIKit.framework in Frameworks */,
 				774FE468148EF80000C08ED9 /* Foundation.framework in Frameworks */,
 				774FE46A148EF80000C08ED9 /* CoreGraphics.framework in Frameworks */,
+				7789FC4014970335006F720B /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +465,7 @@
 		774FE45A148EF80000C08ED9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7789FC3F14970335006F720B /* GameKit.framework */,
 				774FE45B148EF80000C08ED9 /* QuartzCore.framework */,
 				774FE45D148EF80000C08ED9 /* OpenGLES.framework */,
 				774FE45F148EF80000C08ED9 /* OpenAL.framework */,
@@ -740,6 +748,7 @@
 		774FE5CB148EF99000C08ED9 /* Non-retina */ = {
 			isa = PBXGroup;
 			children = (
+				774A378114996AA600D6A2C7 /* Buttons.png */,
 				77695A3F1492BF59009CC782 /* Gui.png */,
 				774FE5E1148EFA5E00C08ED9 /* Original.png */,
 			);
@@ -749,6 +758,7 @@
 		774FE5D1148EF99000C08ED9 /* Retina */ = {
 			isa = PBXGroup;
 			children = (
+				774A378214996AA600D6A2C7 /* Buttons-hd.png */,
 				77695A401492BF59009CC782 /* Gui-hd.png */,
 				774FE5E2148EFA5E00C08ED9 /* Original-hd.png */,
 			);
@@ -852,6 +862,8 @@
 				77F6E7C21494FBB00044E193 /* Level20.txt in Resources */,
 				77F6E7C31494FBB00044E193 /* Level21.txt in Resources */,
 				77F6E7C41494FBB00044E193 /* Level22.txt in Resources */,
+				774A378314996AA600D6A2C7 /* Buttons.png in Resources */,
+				774A378414996AA600D6A2C7 /* Buttons-hd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,10 +7,14 @@
 //
 
 #import "cocos2d.h"
+#import <GameKit/GameKit.h>
 
-@interface GameOverScene : CCScene{
+@interface GameOverScene : CCScene <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>{
     CCLabelTTF *movesLabel;
     CCLabelTTF *timeTakenLabel;
+    
+    NSTimeInterval timeScore;
+    int movesScore;
     
     CCMenu *menu;
 }
@@ -20,6 +24,10 @@
 
 @property (nonatomic, retain) CCMenu *menu;
 
-- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time;
+- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time levelNumber:(int)level;
+
+- (void)toMenu;
+- (void)toAchievements;
+- (void)toLeaderboards;
 
 @end

@@ -183,98 +183,98 @@
     return self;
 }
 
-- (void)playLevel:(NSString *)level{
+- (void)playLevel:(int)level{
     GameScene *gs = [[GameScene alloc] initWithLevel: level];
     [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
 }
 
 - (void)playLevel1{
-    [self playLevel: @"Level1"];
+    [self playLevel: 1];
 }
 
 - (void)playLevel2{
-    [self playLevel: @"Level2"];
+    [self playLevel: 2];
 }
 
 - (void)playLevel3{
-    [self playLevel: @"Level3"];
+    [self playLevel: 3];
 }
 
 - (void)playLevel4{
-    [self playLevel: @"Level4"];
+    [self playLevel: 4];
 }
 
 - (void)playLevel5{
-    [self playLevel: @"Level5"];
+    [self playLevel: 5];
 }
 
 - (void)playLevel6{
-    [self playLevel: @"Level6"];
+    [self playLevel: 6];
 }
 
 - (void)playLevel7{
-    [self playLevel: @"Level7"];
+    [self playLevel: 7];
 }
 
 - (void)playLevel8{
-    [self playLevel: @"Level8"];
+    [self playLevel: 8];
 }
 
 - (void)playLevel9{
-    [self playLevel: @"Level9"];
+    [self playLevel: 9];
 }
 
 - (void)playLevel10{
-    [self playLevel: @"Level10"];
+    [self playLevel: 10];
 }
 
 - (void)playLevel11{
-    [self playLevel: @"Level11"];
+    [self playLevel: 11];
 }
 
 - (void)playLevel12{
-    [self playLevel: @"Level12"];
+    [self playLevel: 12];
 }
 
 - (void)playLevel13{
-    [self playLevel: @"Level13"];
+    [self playLevel: 13];
 }
 
 - (void)playLevel14{
-    [self playLevel: @"Level14"];
+    [self playLevel: 14];
 }
 
 - (void)playLevel15{
-    [self playLevel: @"Level15"];
+    [self playLevel: 15];
 }
 
 - (void)playLevel16{
-    [self playLevel: @"Level16"];
+    [self playLevel: 16];
 }
 
 - (void)playLevel17{
-    [self playLevel: @"Level17"];
+    [self playLevel: 17];
 }
 
 - (void)playLevel18{
-    [self playLevel: @"Level18"];
+    [self playLevel: 18];
 }
 
 - (void)playLevel19{
-    [self playLevel: @"Level19"];
+    [self playLevel: 19];
 }
 
 - (void)playLevel20{
-    [self playLevel: @"Level20"];
+    [self playLevel: 20];
 }
 
 - (void)playLevel21{
-    [self playLevel: @"Level21"];
+    [self playLevel: 21];
 }
 
 - (void)playLevel22{
-    [self playLevel: @"Level22"];
+    [self playLevel: 22];
 }
 
 @end

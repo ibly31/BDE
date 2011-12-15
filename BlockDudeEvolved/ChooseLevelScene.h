@@ -19,7 +19,7 @@
 @property (nonatomic, retain) CCLabelTTF *chooseLevel;
 @property (nonatomic, retain) CCMenu *menu;
 
-- (void)playLevel:(NSString *)level;
+- (void)playLevel:(int)level;
 - (void)playLevel1;
 - (void)playLevel2;
 - (void)playLevel3;

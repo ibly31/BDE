@@ -20,7 +20,7 @@
     CCSprite *player;
     CCSprite *carryingBlock;
     
-    NSString *currentLevel;
+    int currentLevel;
     
     BOOL facingLeft;
     
@@ -30,14 +30,14 @@
     int playerX,playerY;
 }
 
-- (id)initWithLevel:(NSString *)level;
+- (id)initWithLevel:(int)level;
 
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) InputLayer *inputLayer;
 
 @property (nonatomic, retain) CCSprite *player;
 @property (nonatomic, retain) CCSprite *carryingBlock;
-@property (nonatomic, retain) NSString *currentLevel;
+@property int currentLevel;
 @property int playerX,playerY;
 
 - (void)winGame;

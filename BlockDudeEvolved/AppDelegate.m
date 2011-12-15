@@ -12,10 +12,12 @@
 #import "GameConfig.h"
 #import "MainMenuScene.h"
 #import "RootViewController.h"
+#import <GameKit/GameKit.h>
 
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize viewController;
 
 - (void) removeStartupFlicker
 {
@@ -42,6 +44,8 @@
 {
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    [self authenticateLocalPlayer];
 	
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use the default director
@@ -52,7 +56,7 @@
 	CCDirector *director = [CCDirector sharedDirector];
 	
 	// Init the View Controller
-	viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+	self.viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
 	viewController.wantsFullScreenLayout = YES;
 	
 	//
@@ -115,6 +119,15 @@
     [mms release];
 }
 
+- (void) authenticateLocalPlayer{
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
+        if (localPlayer.isAuthenticated)
+        {
+            NSLog(@"Successful Authentication");
+        }
+    }];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	[[CCDirector sharedDirector] pause];

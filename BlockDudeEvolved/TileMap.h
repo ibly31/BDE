@@ -18,7 +18,7 @@
 @property int mapWidth;
 @property int mapHeight;
 
-- (id)initWithMap:(NSString *)map gameScene:(GameScene *)gs;
+- (id)initWithMap:(int)map gameScene:(GameScene *)gs;
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn;
 - (void)setOffsetToCenterOn:(CGPoint)centerOn animated:(BOOL)animated;

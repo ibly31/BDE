@@ -64,7 +64,7 @@
 
 - (void)restartLevel{
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    NSString *currentLevel = [gsUpper currentLevel];
+    int currentLevel = [gsUpper currentLevel];
     [[CCDirector sharedDirector] popScene];
     GameScene *gs = [[GameScene alloc] initWithLevel: currentLevel];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];

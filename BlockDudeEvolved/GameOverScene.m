@@ -8,15 +8,32 @@
 
 #import "GameOverScene.h"
 #import "MainMenuScene.h"
+#import "AppDelegate.h"
+#import <GameKit/GameKit.h>
+#import "RootViewController.h"
 
 @implementation GameOverScene
 @synthesize movesLabel;
 @synthesize timeTakenLabel;
 @synthesize menu;
 
-- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time{
+- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time levelNumber:(int)level{
     self = [super init];
     if(self){
+        
+        GKAchievement *achievement = [[[GKAchievement alloc] initWithIdentifier: [NSString stringWithFormat:@"Level%iComplete", level]] autorelease];
+        if (achievement){
+            achievement.percentComplete = 100.0;
+            [achievement reportAchievementWithCompletionHandler:^(NSError *error){
+                 if (error != nil){
+                     
+                 }
+             }];
+        }
+        
+        movesScore = moves;
+        timeScore = time;
+        
         self.movesLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"Moves taken: %i", moves] fontName:@"Krungthep" fontSize:24];
         [movesLabel setPosition: ccp(240, 223)];
         [self addChild: movesLabel];
@@ -25,15 +42,19 @@
         [timeTakenLabel setPosition: ccp(240, 183)];
         [self addChild: timeTakenLabel];
         
-        CCSprite *menuSprite = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(256, 128, 64, 64)];
+        CCSprite *menuSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(0, 0, 48, 48)];
         CCMenuItemSprite *menuItem = [CCMenuItemSprite itemFromNormalSprite:menuSprite selectedSprite:nil target:self selector:@selector(toMenu)];
-        [menuItem setPosition: ccp(160, 64)];
+        [menuItem setPosition: ccp(180, 64)];
                 
-        CCSprite *gcSprite = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(320, 128, 64, 64)];
-        CCMenuItemSprite *gcItem = [CCMenuItemSprite itemFromNormalSprite:gcSprite selectedSprite:nil target:self selector:@selector(toGameCenter)];
-        [gcItem setPosition: ccp(320, 64)];
+        CCSprite *achieveSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(96, 0, 48, 48)];
+        CCMenuItemSprite *achieveItem = [CCMenuItemSprite itemFromNormalSprite:achieveSprite selectedSprite:nil target:self selector:@selector(toAchievements)];
+        [achieveItem setPosition: ccp(240, 64)];
         
-        self.menu = [CCMenu menuWithItems:menuItem, gcItem, nil];
+        CCSprite *leaderSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect: CGRectMake(48, 0, 48, 48)];
+        CCMenuItemSprite *leaderItem = [CCMenuItemSprite itemFromNormalSprite:leaderSprite selectedSprite:nil target:self selector:@selector(toLeaderboards)];
+        [leaderItem setPosition: ccp(300, 64)];
+        
+        self.menu = [CCMenu menuWithItems:menuItem, achieveItem, leaderItem, nil];
         [menu setPosition: ccp(0.0f, 0.0f)];
         [self addChild: menu];
         
@@ -47,8 +68,62 @@
     [mms release];
 }
 
-- (void)toGameCenter{
+- (void)toAchievements{
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    RootViewController *rvc = [del viewController];
+
+    if([GKLocalPlayer localPlayer].isAuthenticated){
+        GKAchievementViewController *achievementController = [[GKAchievementViewController alloc] init];    
+        if(achievementController != nil){
+            [achievementController setModalTransitionStyle: UIModalTransitionStyleCrossDissolve];
+            achievementController.achievementDelegate = self;
+            [rvc presentModalViewController:achievementController animated:YES];
+        }
+    }
+}
+
+- (void)toLeaderboards{
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
     
+    /*GKScore *movesReporter = [[[GKScore alloc] initWithCategory:@"BDEL1Moves"] autorelease];
+    movesReporter.value = movesScore;
+    
+    [movesReporter reportScoreWithCompletionHandler:^(NSError *error) {
+        if (error != nil){
+            NSLog(@"Could not report move score");
+        }
+    }];*/
+    
+    GKScore *timeReporter = [[[GKScore alloc] initWithCategory:@"BDEL1Times"] autorelease];
+    timeReporter.value = timeScore;
+    
+    [timeReporter reportScoreWithCompletionHandler:^(NSError *error) {
+        if (error != nil)
+        {
+            NSLog(@"Could not report time score");
+        }
+    }];
+        
+    GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
+    leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
+    [leaderboardController setCategory:@"BDEL1Times"];
+    if (leaderboardController != nil){
+        RootViewController *rvc = [del viewController];
+        leaderboardController.leaderboardDelegate = self;
+        [rvc presentModalViewController:leaderboardController animated:YES];
+    }
+}
+
+- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController{
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    RootViewController *rvc = [del viewController];
+    [rvc dismissModalViewControllerAnimated:YES];
+}
+
+- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)viewController{
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    RootViewController *rvc = [del viewController];
+    [rvc dismissModalViewControllerAnimated:YES];
 }
 
 @end
