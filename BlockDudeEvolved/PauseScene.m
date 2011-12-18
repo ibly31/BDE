@@ -9,6 +9,7 @@
 #import "PauseScene.h"
 #import "MainMenuScene.h"
 #import "GameScene.h"
+#import "OptionsScene.h"
 
 @implementation PauseScene
 @synthesize pauseLabel;
@@ -31,39 +32,46 @@
         CCMenuItemLabel *restartLabel = [[CCMenuItemLabel alloc] initWithLabel:restart target:self selector:@selector(restartLevel)];
         [restartLabel setPosition: ccp(0, -40)];
         
-        CCLabelTTF *options = [[CCLabelTTF alloc] initWithString:@"Options" fontName:@"Krungthep" fontSize:32];
+        /*CCLabelTTF *options = [[CCLabelTTF alloc] initWithString:@"Options" fontName:@"Krungthep" fontSize:32];
         CCMenuItemLabel *optionsLabel = [[CCMenuItemLabel alloc] initWithLabel:options target:self selector:@selector(options)];
-        [optionsLabel setPosition: ccp(0, -80)];
+        [optionsLabel setPosition: ccp(0, -80)];*/
         
         CCLabelTTF *exitGame = [[CCLabelTTF alloc] initWithString:@"Exit Game" fontName:@"Krungthep" fontSize:32];
         CCMenuItemLabel *exitGameLabel = [[CCMenuItemLabel alloc] initWithLabel:exitGame target:self selector:@selector(exitGame)];
-        [exitGameLabel setPosition: ccp(0, -120)];
+        [exitGameLabel setPosition: ccp(0, -80)];
         
-        self.menu = [CCMenu menuWithItems:returnToGameLabel, restartLabel, optionsLabel, exitGameLabel, nil];
+        self.menu = [CCMenu menuWithItems:returnToGameLabel, restartLabel, exitGameLabel, nil];
         [self addChild: menu];
         
         [returnToGame release];
         [returnToGameLabel release];
-        [options release];
-        [optionsLabel release];
         [exitGame release];
         [exitGameLabel release];
     }
     return self;
 }
 
-- (void)returnToGame{
+- (void)onEnter{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    [super onEnter];
+}
+
+- (void)onExit{
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    [super onExit];
+}
+
+- (void)returnToGame{
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f];
 }
 
-- (void)options{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    NSLog(@"Options");
-}
+/*- (void)options{
+    OptionsScene *os = [[OptionsScene alloc] init];
+    [[CCDirector sharedDirector] pushScene:[CCTransitionFade transitionWithDuration:0.5f scene:os]];
+    [os release];
+}*/
 
 - (void)restartLevel{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     int currentLevel = [gsUpper currentLevel];
     [[CCDirector sharedDirector] popScene];
     GameScene *gs = [[GameScene alloc] initWithLevel: currentLevel];
@@ -72,7 +80,6 @@
 }
 
 - (void)exitGame{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [[CCDirector sharedDirector] popScene];
     CCScene *mms = [[MainMenuScene alloc] init];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:mms]];

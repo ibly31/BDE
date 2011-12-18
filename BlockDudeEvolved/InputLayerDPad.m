@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "InputLayer.h"
+#import "InputLayerDPad.h"
 #import "GameScene.h"
 #import "PauseScene.h"
 
@@ -18,7 +18,7 @@ enum {
     O_LEFT
 };
 
-@implementation InputLayer
+@implementation InputLayerDPad
 @synthesize pauseButton;
 @synthesize directionalStick;
 @synthesize acceptInput;
@@ -28,7 +28,7 @@ enum {
     if(self){
         self.isTouchEnabled = YES;
         self.acceptInput = YES;
-        
+                
         waitTime = 0.1f;
         firstWaitTime = 0.3f;
         didFirstWaits = 0;
@@ -122,7 +122,6 @@ enum {
             PauseScene *ps = [[PauseScene alloc] initWithGameScene: (GameScene *)parent_];
             [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:ps]];
             [ps release];
-            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
         }
     }
 }

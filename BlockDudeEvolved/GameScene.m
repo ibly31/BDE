@@ -8,7 +8,8 @@
 
 #import "GameScene.h"
 #import "GameOverScene.h"
-#import "InputLayer.h"
+#import "InputLayerDPad.h"
+#import "InputLayerButtons.h"
 
 enum {
     O_NONE=0,
@@ -63,7 +64,14 @@ enum {
         
         [map setOffsetToCenterOn: ccp(playerX, playerY)];
         
-        self.inputLayer = [[InputLayer alloc] init];
+        int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
+        if(controlScheme == 1)
+            self.inputLayer = (CCLayer *)[[InputLayerDPad alloc] init];
+        else if(controlScheme == 2 || controlScheme == 3)
+            self.inputLayer = (CCLayer *)[[InputLayerButtons alloc] init];
+        else
+            NSLog(@"Control scheme != 1 or 2");
+        
         [self addChild: inputLayer];
     }
     return self;
@@ -267,7 +275,14 @@ enum {
     if(fallAttempts < 30){
         int blockBelow = [map tileAtX:playerX Y:playerY+1];
         if(blockBelow != 0){
-            [inputLayer setAcceptInput: YES];
+            int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
+            if(controlScheme == 1)
+                [(InputLayerDPad *)inputLayer setAcceptInput: YES];
+            else if(controlScheme == 2 || controlScheme == 3)
+                [(InputLayerButtons *)inputLayer setAcceptInput: YES];
+            else
+                NSLog(@"Control scheme != 1 or 2");
+
             [self unschedule: @selector(attemptFall)];
             if(blockBelow == 4){
                 playerY++;
@@ -291,7 +306,14 @@ enum {
     int blockUnder = [map tileAtX:playerX Y:playerY+1];
     if(blockUnder == 0){
         fallAttempts = 0;           // Provide a break to the infinite loop
-        [inputLayer setAcceptInput: NO];
+        int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
+        if(controlScheme == 1)
+            [(InputLayerDPad *)inputLayer setAcceptInput: NO];
+        else if(controlScheme == 2 || controlScheme == 3)
+            [(InputLayerButtons *)inputLayer setAcceptInput: NO];
+        else
+            NSLog(@"Control scheme != 1 or 2");
+
         [self schedule: @selector(attemptFall) interval: 0.03f];
     }
 }
@@ -300,7 +322,14 @@ enum {
     if(fallAttempts < 30){
         int blockBelow = [map tileAtX:currentBlockFall.x Y:currentBlockFall.y+1];
         if(blockBelow != 0){
-            [inputLayer setAcceptInput: YES];
+            int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
+            if(controlScheme == 1)
+                [(InputLayerDPad *)inputLayer setAcceptInput: YES];
+            else if(controlScheme == 2 || controlScheme == 3)
+                [(InputLayerButtons *)inputLayer setAcceptInput: YES];
+            else
+                NSLog(@"Control scheme != 1 or 2");
+
             [self unschedule: @selector(blockAttemptFall)];
         }else{
             [map setTileAtX:currentBlockFall.x Y:currentBlockFall.y value:0];
@@ -319,7 +348,14 @@ enum {
     int blockUnder = [map tileAtX:currentBlockFall.x Y:currentBlockFall.y+1];
     if(blockUnder == 0){
         fallAttempts = 0;                   // Provide a break to the infinite loop
-        [inputLayer setAcceptInput: NO];
+        int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
+        if(controlScheme == 1)
+            [(InputLayerDPad *)inputLayer setAcceptInput: NO];
+        else if(controlScheme == 2 || controlScheme == 3)
+            [(InputLayerButtons *)inputLayer setAcceptInput: NO];
+        else
+            NSLog(@"Control scheme != 1 or 2");
+
         [self schedule: @selector(blockAttemptFall) interval: 0.05f];
     }
 }

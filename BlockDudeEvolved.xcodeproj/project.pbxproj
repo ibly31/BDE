@@ -18,7 +18,9 @@
 		77284F3F149019B200D63D79 /* Level7.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77284F34149019B200D63D79 /* Level7.txt */; };
 		77284F40149019B200D63D79 /* Level8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77284F35149019B200D63D79 /* Level8.txt */; };
 		77284F41149019B200D63D79 /* Level9.txt in Resources */ = {isa = PBXBuildFile; fileRef = 77284F36149019B200D63D79 /* Level9.txt */; };
-		77284F441490422C00D63D79 /* InputLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 77284F431490422C00D63D79 /* InputLayer.m */; };
+		77284F441490422C00D63D79 /* InputLayerDPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 77284F431490422C00D63D79 /* InputLayerDPad.m */; };
+		772D386F149D77A50098FE9B /* OptionsScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 772D386E149D77A50098FE9B /* OptionsScene.m */; };
+		772D3877149D8C490098FE9B /* InputLayerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 772D3876149D8C490098FE9B /* InputLayerButtons.m */; };
 		774007781495670F00EE4CE9 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 774007771495670F00EE4CE9 /* GameOverScene.m */; };
 		774A378314996AA600D6A2C7 /* Buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = 774A378114996AA600D6A2C7 /* Buttons.png */; };
 		774A378414996AA600D6A2C7 /* Buttons-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 774A378214996AA600D6A2C7 /* Buttons-hd.png */; };
@@ -157,8 +159,12 @@
 		77284F34149019B200D63D79 /* Level7.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level7.txt; sourceTree = "<group>"; };
 		77284F35149019B200D63D79 /* Level8.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level8.txt; sourceTree = "<group>"; };
 		77284F36149019B200D63D79 /* Level9.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Level9.txt; sourceTree = "<group>"; };
-		77284F421490422B00D63D79 /* InputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputLayer.h; sourceTree = "<group>"; };
-		77284F431490422C00D63D79 /* InputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayer.m; sourceTree = "<group>"; };
+		77284F421490422B00D63D79 /* InputLayerDPad.h */ = {isa = PBXFileReference; fileEncoding = 4; path = InputLayerDPad.h; sourceTree = "<group>"; };
+		77284F431490422C00D63D79 /* InputLayerDPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayerDPad.m; sourceTree = "<group>"; };
+		772D386D149D77A50098FE9B /* OptionsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsScene.h; sourceTree = "<group>"; };
+		772D386E149D77A50098FE9B /* OptionsScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsScene.m; sourceTree = "<group>"; };
+		772D3875149D8C480098FE9B /* InputLayerButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputLayerButtons.h; sourceTree = "<group>"; };
+		772D3876149D8C490098FE9B /* InputLayerButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayerButtons.m; sourceTree = "<group>"; };
 		774007761495670F00EE4CE9 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		774007771495670F00EE4CE9 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		774A378114996AA600D6A2C7 /* Buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Buttons.png; sourceTree = "<group>"; };
@@ -483,8 +489,10 @@
 			children = (
 				774FE5E5148EFF4D00C08ED9 /* TileMap.h */,
 				774FE5E6148EFF4E00C08ED9 /* TileMap.m */,
-				77284F421490422B00D63D79 /* InputLayer.h */,
-				77284F431490422C00D63D79 /* InputLayer.m */,
+				77284F421490422B00D63D79 /* InputLayerDPad.h */,
+				77284F431490422C00D63D79 /* InputLayerDPad.m */,
+				772D3875149D8C480098FE9B /* InputLayerButtons.h */,
+				772D3876149D8C490098FE9B /* InputLayerButtons.m */,
 				774FE5B7148EF80200C08ED9 /* AppDelegate.h */,
 				774FE5B8148EF80200C08ED9 /* AppDelegate.m */,
 				774FE5BA148EF80200C08ED9 /* RootViewController.h */,
@@ -778,6 +786,8 @@
 				77B043B914944B5000020AF5 /* ChooseLevelScene.m */,
 				774007761495670F00EE4CE9 /* GameOverScene.h */,
 				774007771495670F00EE4CE9 /* GameOverScene.m */,
+				772D386D149D77A50098FE9B /* OptionsScene.h */,
+				772D386E149D77A50098FE9B /* OptionsScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -964,11 +974,13 @@
 				774FE5BC148EF80200C08ED9 /* RootViewController.m in Sources */,
 				774FE5C8148EF84100C08ED9 /* GameScene.m in Sources */,
 				774FE5E7148EFF4E00C08ED9 /* TileMap.m in Sources */,
-				77284F441490422C00D63D79 /* InputLayer.m in Sources */,
+				77284F441490422C00D63D79 /* InputLayerDPad.m in Sources */,
 				77B043A41493BF0F00020AF5 /* PauseScene.m in Sources */,
 				77B043B214944A4500020AF5 /* MainMenuScene.m in Sources */,
 				77B043BA14944B5000020AF5 /* ChooseLevelScene.m in Sources */,
 				774007781495670F00EE4CE9 /* GameOverScene.m in Sources */,
+				772D386F149D77A50098FE9B /* OptionsScene.m in Sources */,
+				772D3877149D8C490098FE9B /* InputLayerButtons.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

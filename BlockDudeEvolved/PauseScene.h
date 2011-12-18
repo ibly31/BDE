@@ -25,7 +25,7 @@
 
 - (void)returnToGame;
 - (void)restartLevel;
-- (void)options;
+//- (void)options;
 - (void)exitGame;
 
 @end

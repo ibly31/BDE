@@ -16,7 +16,6 @@
 - (id)init{
     self = [super init];
     if(self){
-        
         self.chooseLevel = [[CCLabelTTF alloc] initWithString:@"Choose Level" fontName:@"Krungthep" fontSize:36];
         [chooseLevel setPosition: ccp(240, 280)];
         [self addChild: chooseLevel];
@@ -131,7 +130,11 @@
         [lev22L setAnchorPoint: ccp(0.0f, 0.5f)];
         [lev22L setPosition: ccp(356, 113)];
         
-        self.menu = [CCMenu menuWithItems: lev1L, lev2L, lev3L, lev4L, lev5L, lev6L, lev7L, lev8L, lev9L, lev10L, lev11L, lev12L, lev13L, lev14L, lev15L, lev16L, lev17L, lev18L, lev19L, lev20L, lev21L, lev22L, nil];
+        CCSprite *menuSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(0, 0, 48, 48)];
+        CCMenuItemSprite *menuItem = [CCMenuItemSprite itemFromNormalSprite:menuSprite selectedSprite:nil target:self selector:@selector(toMenu)];
+        [menuItem setPosition: ccp(400, 64)];
+        
+        self.menu = [CCMenu menuWithItems: menuItem, lev1L, lev2L, lev3L, lev4L, lev5L, lev6L, lev7L, lev8L, lev9L, lev10L, lev11L, lev12L, lev13L, lev14L, lev15L, lev16L, lev17L, lev18L, lev19L, lev20L, lev21L, lev22L, nil];
         [menu setPosition: ccp(0.0f, 0.0f)];
         [self addChild: menu];
         
@@ -181,6 +184,10 @@
         [lev22L release];
     }
     return self;
+}
+
+- (void)toMenu{
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f];
 }
 
 - (void)playLevel:(int)level{

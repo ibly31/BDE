@@ -8,11 +8,10 @@
 
 #import "cocos2d.h"
 #import "TileMap.h"
-#import "InputLayer.h"
 
 @interface GameScene : CCScene{
     TileMap *map;
-    InputLayer *inputLayer;
+    CCLayer *inputLayer;
     
     int moves;
     NSTimeInterval startInterval;
@@ -33,7 +32,7 @@
 - (id)initWithLevel:(int)level;
 
 @property (nonatomic, retain) TileMap *map;
-@property (nonatomic, retain) InputLayer *inputLayer;
+@property (nonatomic, retain) CCLayer *inputLayer;
 
 @property (nonatomic, retain) CCSprite *player;
 @property (nonatomic, retain) CCSprite *carryingBlock;

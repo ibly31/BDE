@@ -7,8 +7,9 @@
 //
 
 #import "cocos2d.h"
+#import <GameKit/GameKit.h>
 
-@interface MainMenuScene : CCScene{
+@interface MainMenuScene : CCScene <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>{
     CCLabelTTF *titleLabel;
     
     CCMenu *menu;
@@ -19,5 +20,7 @@
 
 - (void)playGame;
 - (void)options;
+- (void)toLeaderboards;
+- (void)toAchievements;
 
 @end
