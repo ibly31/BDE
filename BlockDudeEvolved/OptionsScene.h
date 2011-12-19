@@ -8,12 +8,14 @@
 
 #import "cocos2d.h"
 
-@interface OptionsScene : CCScene{
+@interface OptionsScene : CCScene <UIAlertViewDelegate>{
     CCLabelTTF *optionsLabel;
     
     CCSprite *csDpadSprite;
     CCSprite *csButton1Sprite;
     CCSprite *csButton2Sprite;
+    
+    CCSprite *speedModeSprite;
     
     CCMenu *controlSchemeMenu;
 }
@@ -28,5 +30,7 @@
 - (void)csButtons2;
 
 - (void)toMenu;
+- (void)resetAchievements;
+- (void)speedModeToggle;
 
 @end

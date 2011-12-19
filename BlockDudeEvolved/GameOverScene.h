@@ -9,12 +9,13 @@
 #import "cocos2d.h"
 #import <GameKit/GameKit.h>
 
-@interface GameOverScene : CCScene <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>{
+@interface GameOverScene : CCScene{
     CCLabelTTF *movesLabel;
     CCLabelTTF *timeTakenLabel;
     
     NSTimeInterval timeScore;
     int movesScore;
+    int levelNumber;
     
     CCMenu *menu;
 }

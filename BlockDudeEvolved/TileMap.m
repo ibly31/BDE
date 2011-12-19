@@ -8,12 +8,15 @@
 
 #import "TileMap.h"
 #import "GameScene.h"
+#import "AppDelegate.h"
 
 @implementation TileMap
 @synthesize mapWidth;
 @synthesize mapHeight;
 
 - (id)initWithMap:(int)map gameScene:(GameScene *)gs{
+    
+    animate = [[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%i",map] ofType:@"txt"];
     NSString *string = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
@@ -67,7 +70,7 @@
 }
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn{
-    [self setOffsetToCenterOn:centerOn animated:YES];
+    [self setOffsetToCenterOn:centerOn animated:!animate];
 }
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn animated:(BOOL)animated{

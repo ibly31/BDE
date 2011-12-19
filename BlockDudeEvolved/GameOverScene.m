@@ -20,21 +20,25 @@
 - (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time levelNumber:(int)level{
     self = [super init];
     if(self){
+        AppDelegate *del = [[UIApplication sharedApplication] delegate];
+        [[del gameCenterModel] reportAchievementIdentifier:[NSString stringWithFormat:@"Level%iComplete", level] percentComplete:100.0f];
         
-        GKAchievement *achievement = [[[GKAchievement alloc] initWithIdentifier: [NSString stringWithFormat:@"Level%iComplete", level]] autorelease];
-        if (achievement){
-            achievement.percentComplete = 100.0;
-            [achievement reportAchievementWithCompletionHandler:^(NSError *error){
-                 if (error != nil){
-                     
-                 }
-             }];
+        levelNumber = level;
+        
+        int numberOriginalComplete = 0;
+        for(int x = 1; x <= 11; x++){
+            if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete"]])
+                numberOriginalComplete++;
+        }
+        
+        if(numberOriginalComplete > 0){
+            [[del gameCenterModel] reportAchievementIdentifier:@"OriginalLevelsComplete" percentComplete:(float)numberOriginalComplete / 11.0f];
         }
         
         movesScore = moves;
         timeScore = time;
         
-        self.movesLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"Moves taken: %i", moves] fontName:@"Krungthep" fontSize:24];
+        self.movesLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"Moves: %i", moves] fontName:@"Krungthep" fontSize:24];
         [movesLabel setPosition: ccp(240, 223)];
         [self addChild: movesLabel];
         
@@ -70,16 +74,7 @@
 
 - (void)toAchievements{
     AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    RootViewController *rvc = [del viewController];
-
-    if([GKLocalPlayer localPlayer].isAuthenticated){
-        GKAchievementViewController *achievementController = [[GKAchievementViewController alloc] init];    
-        if(achievementController != nil){
-            [achievementController setModalTransitionStyle: UIModalTransitionStyleCrossDissolve];
-            achievementController.achievementDelegate = self;
-            [rvc presentModalViewController:achievementController animated:YES];
-        }
-    }
+    [[del gameCenterModel] openAchievementViewer];
 }
 
 - (void)toLeaderboards{
@@ -94,7 +89,7 @@
         }
     }];*/
     
-    GKScore *timeReporter = [[[GKScore alloc] initWithCategory:@"BDEL1Times"] autorelease];
+    GKScore *timeReporter = [[[GKScore alloc] initWithCategory:[NSString stringWithFormat:@"BDEL%iTimes", levelNumber]] autorelease];
     timeReporter.value = timeScore;
     
     [timeReporter reportScoreWithCompletionHandler:^(NSError *error) {
@@ -104,26 +99,7 @@
         }
     }];
         
-    GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
-    leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
-    [leaderboardController setCategory:@"BDEL1Times"];
-    if (leaderboardController != nil){
-        RootViewController *rvc = [del viewController];
-        leaderboardController.leaderboardDelegate = self;
-        [rvc presentModalViewController:leaderboardController animated:YES];
-    }
-}
-
-- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController{
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    RootViewController *rvc = [del viewController];
-    [rvc dismissModalViewControllerAnimated:YES];
-}
-
-- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)viewController{
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    RootViewController *rvc = [del viewController];
-    [rvc dismissModalViewControllerAnimated:YES];
+    [[del gameCenterModel] openLeaderboardViewer];
 }
 
 @end

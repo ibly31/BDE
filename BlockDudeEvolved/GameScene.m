@@ -23,6 +23,9 @@ enum {
 @synthesize map;
 @synthesize inputLayer;
 
+@synthesize timeLabel;
+@synthesize moveLabel;
+
 @synthesize player;
 @synthesize carryingBlock;
 
@@ -31,11 +34,11 @@ enum {
 - (id)initWithLevel:(int)level{
     self = [super init];
     if(self){
-        
         self.currentLevel = level;
         
         moves = 0;
         startInterval = [[NSDate date] timeIntervalSince1970];
+        discountInterval = 0.0f;
         
         CCLayerColor *background = [[CCLayerColor alloc] initWithColor: ccc4(255, 255, 255, 255) width:480 height:320];
         [self addChild: background];
@@ -64,6 +67,18 @@ enum {
         
         [map setOffsetToCenterOn: ccp(playerX, playerY)];
         
+        self.timeLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:@"Krungthep" fontSize:20.0f];
+        [timeLabel setColor: ccc3(255, 0, 0)];
+        [timeLabel setAnchorPoint: ccp(0.0f, 1.0f)];
+        [timeLabel setPosition: ccp(8.0f, 312.0f)];
+        [self addChild: timeLabel];
+        
+        self.moveLabel = [[CCLabelTTF alloc] initWithString:@"Moves: 0" fontName:@"Krungthep" fontSize:20.0f];
+        [moveLabel setColor: ccc3(255, 0, 0)];
+        [moveLabel setAnchorPoint: ccp(1.0f, 1.0f)];
+        [moveLabel setPosition: ccp(472.0f, 312.0f)];
+        [self addChild: moveLabel];
+        
         int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
         if(controlScheme == 1)
             self.inputLayer = (CCLayer *)[[InputLayerDPad alloc] init];
@@ -71,13 +86,17 @@ enum {
             self.inputLayer = (CCLayer *)[[InputLayerButtons alloc] init];
         else
             NSLog(@"Control scheme != 1 or 2");
-        
+    
         [self addChild: inputLayer];
+        
+        [self schedule:@selector(updateTimeLabel) interval:.01f];
     }
     return self;
 }
 
 - (void)winGame{
+    [self unschedule: @selector(updateTimeLabel)];
+    
     NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
     
     GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval levelNumber:currentLevel];
@@ -153,7 +172,8 @@ enum {
             if(facingLeft){
                 int blockToLeft = [map tileAtX:playerX-1 Y:playerY];
                 int blockToLUp = [map tileAtX:playerX-1 Y:playerY-1];
-                if(blockToLeft != 4 && blockToLeft != 0 && blockToLUp == 0){
+                int blockToUp = [map tileAtX:playerX Y:playerY-1];
+                if(blockToLeft != 4 && blockToLeft != 0 && blockToLUp == 0 && blockToUp == 0){
                     playerX--;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
@@ -168,7 +188,8 @@ enum {
             }else{
                 int blockToRight = [map tileAtX:playerX+1 Y:playerY];
                 int blockToRUp = [map tileAtX:playerX+1 Y:playerY-1];
-                if(blockToRight != 4 && blockToRight != 0 && blockToRUp == 0){
+                int blockToUp = [map tileAtX:playerX Y:playerY-1];
+                if(blockToRight != 4 && blockToRight != 0 && blockToRUp == 0 && blockToUp == 0){
                     playerX++;
                     playerY--;
                     [map setOffsetToCenterOn: ccp(playerX, playerY)];
@@ -269,6 +290,7 @@ enum {
             }
         }
     }
+    [self updateMoveLabel];
 }
 
 - (void)attemptFall{
@@ -287,14 +309,12 @@ enum {
             if(blockBelow == 4){
                 playerY++;
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
-                moves++;
                 [self winGame];
             }
         }else{
             playerY++;
             fallAttempts++;
             [map setOffsetToCenterOn: ccp(playerX, playerY)];
-            moves++;
         }
     }else{
         NSLog(@"Fall attempts > 30, exitting");
@@ -314,7 +334,10 @@ enum {
         else
             NSLog(@"Control scheme != 1 or 2");
 
-        [self schedule: @selector(attemptFall) interval: 0.03f];
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"]) 
+            [self schedule: @selector(attemptFall) interval: 0.0f];
+        else
+            [self schedule: @selector(attemptFall) interval: 0.03f];
     }
 }
 
@@ -356,8 +379,20 @@ enum {
         else
             NSLog(@"Control scheme != 1 or 2");
 
-        [self schedule: @selector(blockAttemptFall) interval: 0.05f];
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"]) 
+            [self schedule: @selector(blockAttemptFall) interval: 0.0f];
+        else
+            [self schedule: @selector(blockAttemptFall) interval: 0.05f];
     }
+}
+
+- (void)updateMoveLabel{
+    [moveLabel setString:[NSString stringWithFormat:@"Moves: %i", moves]];
+}
+
+- (void)updateTimeLabel{
+    NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
+    [timeLabel setString:[NSString stringWithFormat:@"%.2f", sinceSeventy - startInterval]];
 }
 
 - (void)setPlayerX:(int)x{

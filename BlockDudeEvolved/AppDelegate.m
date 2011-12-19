@@ -15,19 +15,22 @@
 #import <GameKit/GameKit.h>
 
 @implementation AppDelegate
-
 @synthesize window;
 @synthesize viewController;
+@synthesize gameCenterModel;
 
-- (void) applicationDidFinishLaunching:(UIApplication*)application
-{
-	// Init the window
+- (void) applicationDidFinishLaunching:(UIApplication*)application{
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    [self authenticateLocalPlayer];
+    self.gameCenterModel = [[GameCenterModel alloc] init];
     
     if([[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"] == 0){
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"ControlScheme"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    if([[NSUserDefaults standardUserDefaults] objectForKey: @"SpeedMode"] == nil){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SpeedMode"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
@@ -66,16 +69,6 @@
     MainMenuScene *mms = [[MainMenuScene alloc] init];
 	[[CCDirector sharedDirector] runWithScene: mms];
     [mms release];
-}
-
-- (void) authenticateLocalPlayer{
-    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
-    [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
-        if (localPlayer.isAuthenticated)
-        {
-            NSLog(@"Successful Authentication");
-        }
-    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -66,40 +66,11 @@
 
 - (void)toAchievements{
     AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    RootViewController *rvc = [del viewController];
-    
-    if([GKLocalPlayer localPlayer].isAuthenticated){
-        GKAchievementViewController *achievementController = [[GKAchievementViewController alloc] init];    
-        if(achievementController != nil){
-            [achievementController setModalTransitionStyle: UIModalTransitionStyleCrossDissolve];
-            achievementController.achievementDelegate = self;
-            [rvc presentModalViewController:achievementController animated:YES];
-        }
-    }
+    [[del gameCenterModel] openAchievementViewer];
 }
 
 - (void)toLeaderboards{
     AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    
-    GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
-    leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
-    if (leaderboardController != nil){
-        RootViewController *rvc = [del viewController];
-        leaderboardController.leaderboardDelegate = self;
-        [rvc presentModalViewController:leaderboardController animated:YES];
-    }
+    [[del gameCenterModel] openLeaderboardViewer];
 }
-
-- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController{
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    RootViewController *rvc = [del viewController];
-    [rvc dismissModalViewControllerAnimated:YES];
-}
-
-- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)viewController{
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    RootViewController *rvc = [del viewController];
-    [rvc dismissModalViewControllerAnimated:YES];
-}
-
 @end

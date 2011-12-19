@@ -32,9 +32,16 @@ enum {
         self.isTouchEnabled = YES;
         self.acceptInput = YES;
         
-        waitTime = 0.1f;
-        firstWaitTime = 0.3f;
-        didFirstWaits = 0;
+        BOOL speedMode = [[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"];
+        if(speedMode){
+            waitTime = 0.07f;
+            firstWaitTime = 0.15f;
+            didFirstWaits = 0;
+        }else{
+            waitTime = 0.1f;
+            firstWaitTime = 0.3f;
+            didFirstWaits = 0;
+        }
         
         orientation = O_NONE;
         

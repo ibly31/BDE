@@ -47,6 +47,12 @@
         [returnToGameLabel release];
         [exitGame release];
         [exitGameLabel release];
+        
+        CCLabelTTF *warningLabel = [[CCLabelTTF alloc] initWithString:@"Warning: Clock is still running." fontName:@"Krungthep" fontSize:18.0f];
+        [warningLabel setColor:ccc3(200, 200, 200)];
+        [warningLabel setPosition: ccp(240.0f, 25.0f)];
+        [self addChild: warningLabel];
+        
     }
     return self;
 }

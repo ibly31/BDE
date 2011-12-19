@@ -15,6 +15,10 @@
     
     int moves;
     NSTimeInterval startInterval;
+    NSTimeInterval discountInterval;
+    
+    CCLabelTTF *timeLabel;
+    CCLabelTTF *moveLabel;
     
     CCSprite *player;
     CCSprite *carryingBlock;
@@ -34,10 +38,16 @@
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) CCLayer *inputLayer;
 
+@property (nonatomic, retain) CCLabelTTF *timeLabel;
+@property (nonatomic, retain) CCLabelTTF *moveLabel;
+
 @property (nonatomic, retain) CCSprite *player;
 @property (nonatomic, retain) CCSprite *carryingBlock;
 @property int currentLevel;
 @property int playerX,playerY;
+
+- (void)updateTimeLabel;
+- (void)updateMoveLabel;
 
 - (void)winGame;
 

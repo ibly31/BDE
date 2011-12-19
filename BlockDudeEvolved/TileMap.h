@@ -13,6 +13,8 @@
 @interface TileMap : CCSpriteBatchNode{
     int mapWidth;
     int mapHeight;
+    
+    BOOL animate;
 }
 
 @property int mapWidth;
