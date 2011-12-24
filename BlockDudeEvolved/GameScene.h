@@ -17,8 +17,7 @@
     NSTimeInterval startInterval;
     NSTimeInterval discountInterval;
     
-    CCLabelTTF *timeLabel;
-    CCLabelTTF *moveLabel;
+    CCLabelAtlas *timeLabel;
     
     CCSprite *player;
     CCSprite *carryingBlock;
@@ -38,8 +37,7 @@
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) CCLayer *inputLayer;
 
-@property (nonatomic, retain) CCLabelTTF *timeLabel;
-@property (nonatomic, retain) CCLabelTTF *moveLabel;
+@property (nonatomic, retain) CCLabelAtlas *timeLabel;
 
 @property (nonatomic, retain) CCSprite *player;
 @property (nonatomic, retain) CCSprite *carryingBlock;
@@ -54,9 +52,9 @@
 - (void)moveInDirection:(int)direction;
 
 - (void)fall;
-- (void)attemptFall;
+- (BOOL)attemptFall;
 
 - (void)blockFall:(CGPoint)block;
-- (void)blockAttemptFall;
+- (BOOL)blockAttemptFall;
 
 @end

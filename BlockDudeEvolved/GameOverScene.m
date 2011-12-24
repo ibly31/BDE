@@ -20,19 +20,34 @@
 - (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time levelNumber:(int)level{
     self = [super init];
     if(self){
+        levelNumber = level;
+
         AppDelegate *del = [[UIApplication sharedApplication] delegate];
         [[del gameCenterModel] reportAchievementIdentifier:[NSString stringWithFormat:@"Level%iComplete", level] percentComplete:100.0f];
-        
-        levelNumber = level;
+        [[del gameCenterModel] reportLeaderboardCategory:[NSString stringWithFormat:@"BDEL%iTimes", level] score:time];
         
         int numberOriginalComplete = 0;
         for(int x = 1; x <= 11; x++){
-            if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete"]])
-                numberOriginalComplete++;
+            if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete", level]]){
+                if([[del gameCenterModel] getAchievementForIdentifier:[NSString stringWithFormat:@"Level%iComplete", level]].completed)
+                    numberOriginalComplete++;
+            }
         }
         
         if(numberOriginalComplete > 0){
-            [[del gameCenterModel] reportAchievementIdentifier:@"OriginalLevelsComplete" percentComplete:(float)numberOriginalComplete / 11.0f];
+            [[del gameCenterModel] reportAchievementIdentifier:@"OriginalLevelsComplete" percentComplete:100.0f * ((float)numberOriginalComplete / 11.0f)];
+        }
+        
+        int numberTotalComplete = numberOriginalComplete;       // Save some time, don't recalc original.
+        for(int x = 12; x <= 22; x++){
+            if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete"]]){
+                if([[del gameCenterModel] getAchievementForIdentifier:[NSString stringWithFormat:@"Level%iComplete"]].completed)
+                    numberTotalComplete++;
+            }
+        }
+        
+        if(numberTotalComplete > 0){
+            [[del gameCenterModel] reportAchievementIdentifier:@"All22LevelsComplete" percentComplete:100.0f * ((float)numberTotalComplete / 22.0f)];
         }
         
         movesScore = moves;
@@ -42,8 +57,18 @@
         [movesLabel setPosition: ccp(240, 223)];
         [self addChild: movesLabel];
         
-        self.timeTakenLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"Time taken: %.2fs",time] fontName:@"Krungthep" fontSize:24];
+        self.timeTakenLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:@"Krungthep" fontSize:24];
         [timeTakenLabel setPosition: ccp(240, 183)];
+        
+        if(time >= 60.0f){
+            int minutes;
+            float seconds;
+            minutes = time / 60.0f;
+            seconds = time - (minutes * 60.0f);
+            [timeTakenLabel setString:[NSString stringWithFormat:@"Time taken: %d:%05.2f", minutes, seconds]];
+        }else{
+            [timeTakenLabel setString:[NSString stringWithFormat:@"Time taken: %.2fs", time]];
+        }
         [self addChild: timeTakenLabel];
         
         CCSprite *menuSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(0, 0, 48, 48)];
@@ -78,27 +103,7 @@
 }
 
 - (void)toLeaderboards{
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
-    
-    /*GKScore *movesReporter = [[[GKScore alloc] initWithCategory:@"BDEL1Moves"] autorelease];
-    movesReporter.value = movesScore;
-    
-    [movesReporter reportScoreWithCompletionHandler:^(NSError *error) {
-        if (error != nil){
-            NSLog(@"Could not report move score");
-        }
-    }];*/
-    
-    GKScore *timeReporter = [[[GKScore alloc] initWithCategory:[NSString stringWithFormat:@"BDEL%iTimes", levelNumber]] autorelease];
-    timeReporter.value = timeScore;
-    
-    [timeReporter reportScoreWithCompletionHandler:^(NSError *error) {
-        if (error != nil)
-        {
-            NSLog(@"Could not report time score");
-        }
-    }];
-        
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];    
     [[del gameCenterModel] openLeaderboardViewer];
 }
 

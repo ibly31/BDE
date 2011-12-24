@@ -20,6 +20,8 @@
 - (BOOL)achievementExistsForIdentifier:(NSString *)identifier;
 - (void)reportAchievementIdentifier:(NSString*)identifier percentComplete:(float)percent;
 
+- (void)reportLeaderboardCategory:(NSString *)category score:(int64_t)score;
+
 - (void)openAchievementViewer;
 - (void)openLeaderboardViewer;
 

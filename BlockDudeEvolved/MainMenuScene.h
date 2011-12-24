@@ -18,7 +18,8 @@
 @property (nonatomic, retain) CCLabelTTF *titleLabel;
 @property (nonatomic, retain) CCMenu *menu;
 
-- (void)playGame;
+- (void)selectLevel;
+- (void)editLevel;
 - (void)options;
 - (void)toLeaderboards;
 - (void)toAchievements;

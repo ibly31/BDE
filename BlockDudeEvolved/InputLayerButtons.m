@@ -39,7 +39,7 @@ enum {
             didFirstWaits = 0;
         }else{
             waitTime = 0.1f;
-            firstWaitTime = 0.3f;
+            firstWaitTime = 0.2f;
             didFirstWaits = 0;
         }
         

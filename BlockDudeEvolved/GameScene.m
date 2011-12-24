@@ -24,7 +24,6 @@ enum {
 @synthesize inputLayer;
 
 @synthesize timeLabel;
-@synthesize moveLabel;
 
 @synthesize player;
 @synthesize carryingBlock;
@@ -48,13 +47,13 @@ enum {
         
         facingLeft = YES;
         
-        self.map = [[TileMap alloc] initWithMap:currentLevel gameScene:self];
+        self.map = [[TileMap alloc] init];
+        [self addChild: map];
+        [map loadMap: currentLevel];
         if(playerX == -1 && playerY == -1){
             NSLog(@"Never set playerlocation. Defaulting to 1,1");
             playerX = 1; playerY = 1;
         }
-        
-        [self addChild: map];
                                                                                   // 96 = 32x3
         self.player = [[CCSprite alloc] initWithFile:@"Original.png" rect:CGRectMake(96, 0, 32, 32)];
         [player setPosition: ccp(240.0f, 160.0f)];
@@ -67,17 +66,16 @@ enum {
         
         [map setOffsetToCenterOn: ccp(playerX, playerY)];
         
-        self.timeLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:@"Krungthep" fontSize:20.0f];
-        [timeLabel setColor: ccc3(255, 0, 0)];
+        self.timeLabel = [[CCLabelAtlas alloc] initWithString:@"" charMapFile:@"FontOutline.png" itemWidth:16 itemHeight:24 startCharMap:'-'];
         [timeLabel setAnchorPoint: ccp(0.0f, 1.0f)];
-        [timeLabel setPosition: ccp(8.0f, 312.0f)];
+        [timeLabel setPosition: ccp(8, 312)];
         [self addChild: timeLabel];
         
-        self.moveLabel = [[CCLabelTTF alloc] initWithString:@"Moves: 0" fontName:@"Krungthep" fontSize:20.0f];
-        [moveLabel setColor: ccc3(255, 0, 0)];
+        /*self.moveLabel = [[CCLabelAtlas alloc] initWithString:@"Moves: 0" charMapFile:@"FontOutline.png" itemWidth:16 itemHeight:24 startCharMap:'-'];
+        [moveLabel setColor: ccc3(255, 255, 255)];
         [moveLabel setAnchorPoint: ccp(1.0f, 1.0f)];
-        [moveLabel setPosition: ccp(472.0f, 312.0f)];
-        [self addChild: moveLabel];
+        [moveLabel setPosition: ccp(360, 304)];
+        [self addChild: moveLabel];*/
         
         int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
         if(controlScheme == 1)
@@ -273,7 +271,7 @@ enum {
                 int blockToLeft = [map tileAtX:playerX-1 Y:playerY];
                 int blockToLUp = [map tileAtX:playerX-1 Y:playerY-1];
                 int blockAbove = [map tileAtX:playerX Y:playerY-1];
-                if(blockToLeft == 2 && blockToLUp == 0 && blockAbove == 0){
+                if(blockToLeft == 2 && blockToLUp != 2 && blockAbove == 0){
                     [map setTileAtX:playerX-1 Y:playerY value:0];
                     [carryingBlock setVisible: YES];
                     moves++;
@@ -282,7 +280,7 @@ enum {
                 int blockToRight = [map tileAtX:playerX+1 Y:playerY];
                 int blockToRUp = [map tileAtX:playerX+1 Y:playerY-1];
                 int blockAbove = [map tileAtX:playerX Y:playerY-1];
-                if(blockToRight == 2 && blockToRUp == 0 && blockAbove == 0){
+                if(blockToRight == 2 && blockToRUp != 2 && blockAbove == 0){
                     [map setTileAtX:playerX+1 Y:playerY value:0];
                     [carryingBlock setVisible: YES];
                     moves++;
@@ -293,7 +291,7 @@ enum {
     [self updateMoveLabel];
 }
 
-- (void)attemptFall{
+- (BOOL)attemptFall{
     if(fallAttempts < 30){
         int blockBelow = [map tileAtX:playerX Y:playerY+1];
         if(blockBelow != 0){
@@ -311,15 +309,18 @@ enum {
                 [map setOffsetToCenterOn: ccp(playerX, playerY)];
                 [self winGame];
             }
+            return NO;
         }else{
             playerY++;
             fallAttempts++;
             [map setOffsetToCenterOn: ccp(playerX, playerY)];
+            return YES;
         }
     }else{
         NSLog(@"Fall attempts > 30, exitting");
         exit(0);
     }
+    return NO;
 }
 
 - (void)fall{
@@ -334,14 +335,15 @@ enum {
         else
             NSLog(@"Control scheme != 1 or 2");
 
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"]) 
-            [self schedule: @selector(attemptFall) interval: 0.0f];
-        else
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"]){
+            while([self attemptFall]){}             // Loop till done fall, instantaneously to viewer
+        }else{
             [self schedule: @selector(attemptFall) interval: 0.03f];
+        }
     }
 }
 
-- (void)blockAttemptFall{
+- (BOOL)blockAttemptFall{
     if(fallAttempts < 30){
         int blockBelow = [map tileAtX:currentBlockFall.x Y:currentBlockFall.y+1];
         if(blockBelow != 0){
@@ -354,16 +356,19 @@ enum {
                 NSLog(@"Control scheme != 1 or 2");
 
             [self unschedule: @selector(blockAttemptFall)];
+            return NO;
         }else{
             [map setTileAtX:currentBlockFall.x Y:currentBlockFall.y value:0];
             [map setTileAtX:currentBlockFall.x Y:currentBlockFall.y+1 value:2];
             currentBlockFall.y++;
             fallAttempts++;
+            return YES;
         }
     }else{
         NSLog(@"BFall attempts > 30, exitting");
         exit(0);
     }
+    return NO;
 }
 
 - (void)blockFall:(CGPoint)block{
@@ -380,19 +385,29 @@ enum {
             NSLog(@"Control scheme != 1 or 2");
 
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"]) 
-            [self schedule: @selector(blockAttemptFall) interval: 0.0f];
+            while([self blockAttemptFall]){}        // Loop till done fall, instantaneously to viewer.
         else
             [self schedule: @selector(blockAttemptFall) interval: 0.05f];
     }
 }
 
 - (void)updateMoveLabel{
-    [moveLabel setString:[NSString stringWithFormat:@"Moves: %i", moves]];
+    //[moveLabel setString:[NSString stringWithFormat:@"Moves: %i", moves]];
 }
 
 - (void)updateTimeLabel{
-    NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
-    [timeLabel setString:[NSString stringWithFormat:@"%.2f", sinceSeventy - startInterval]];
+    NSTimeInterval timeElapsed = [[NSDate date] timeIntervalSince1970] - startInterval;
+    
+    if(timeElapsed >= 60.0f){
+        int minutes;
+        float seconds;
+        minutes = timeElapsed / 60.0f;
+        seconds = timeElapsed - (minutes * 60.0f);
+        [timeLabel setString:[NSString stringWithFormat:@"%d:%05.2f", minutes, seconds]];
+    }else{
+        [timeLabel setString:[NSString stringWithFormat:@"%.2f", timeElapsed]];
+    }
+    
 }
 
 - (void)setPlayerX:(int)x{

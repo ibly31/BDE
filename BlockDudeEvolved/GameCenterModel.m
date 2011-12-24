@@ -98,6 +98,17 @@
     }
 }
 
+- (void)reportLeaderboardCategory:(NSString *)category score:(int64_t)score{
+    GKScore *timeReporter = [[[GKScore alloc] initWithCategory:category] autorelease];
+    timeReporter.value = (int64_t)score;
+    
+    [timeReporter reportScoreWithCompletionHandler:^(NSError *error) {
+        if (error != nil)
+        {
+            NSLog(@"Could not report time score");
+        }
+    }];
+}
 - (BOOL)achievementExistsForIdentifier:(NSString *)identifier{
     GKAchievement *achievement = [achievementsDict objectForKey:identifier];
     if(achievement == nil)

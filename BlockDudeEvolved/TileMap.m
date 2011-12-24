@@ -14,11 +14,18 @@
 @synthesize mapWidth;
 @synthesize mapHeight;
 
-- (id)initWithMap:(int)map gameScene:(GameScene *)gs{
+- (id)init{
     
     animate = [[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"];
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level%i",map] ofType:@"txt"];
+    self = [super initWithFile:@"Original.png" capacity:560];   // 28*20, max size
+    if(self){
+        
+    }
+    return self;
+}
+
+- (void)loadMap:(int)map{
+    NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Level %i",map] ofType:@"txt"];
     NSString *string = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 	if(!string){
 		NSLog(@"Could not load file %@", map);
@@ -30,7 +37,6 @@
             mapWidth = [[lineStrings objectAtIndex: 0] intValue];
             mapHeight = [[lineStrings objectAtIndex: 1] intValue];
             
-            self = [super initWithFile:@"Original.png" capacity:mapWidth * mapHeight];
             if(self){
                 for(int y = 0; y < mapHeight; y++){
                     for(int x = 0; x < mapWidth; x++){
@@ -48,10 +54,12 @@
                 for(int y = 0; y < mapHeight; y++){
                     for(int x = 0; x < mapWidth; x++){
                         int value = [[lineStrings objectAtIndex: index] intValue];
-                        if(value == 5){
-                            [self setTileAtX:x Y:y value:0];
-                            [gs setPlayerX: x];
-                            [gs setPlayerY: y];
+                        if(value == 3){
+                            if([parent_ isKindOfClass: [GameScene class]]){
+                                [self setTileAtX:x Y:y value:0];
+                                [(GameScene *)parent_ setPlayerX: x];
+                                [(GameScene *)parent_ setPlayerY: y];
+                            }
                         }else{
                             [self setTileAtX:x Y:y value:[[lineStrings objectAtIndex: index] intValue]];
                         }
@@ -66,7 +74,18 @@
             self = nil;
         }
     }
-    return self;
+}
+
+- (void)toggleOutlines{
+    for(int x = 0; x < mapWidth; x++){
+        for(int y = 0; y < mapHeight; y++){
+            int index = (y*mapWidth) + x;
+            if(index >= 0 && index < mapWidth * mapHeight){
+                CCSprite *childAtIndex = (CCSprite *)[children_ objectAtIndex: index];
+                [childAtIndex setScale:0.96875f];   // 31/32 so that 1 pixel border shows
+            }
+        }
+    }
 }
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn{
@@ -76,7 +95,7 @@
 - (void)setOffsetToCenterOn:(CGPoint)centerOn animated:(BOOL)animated{
     CGPoint flippedLocation = ccp(centerOn.x, 10.0f - centerOn.y);
     if(animated)
-        [self runAction: [CCMoveTo actionWithDuration:0.05f position: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)]];
+        [self runAction: [CCMoveTo actionWithDuration:0.03f position: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)]];
     else
         [self setPosition: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)];
 
@@ -107,6 +126,10 @@
         NSLog(@"Cannot get tile (%i,%i), out of bounds.", x, y);
         return 1;           // Fake a brick block, for OOB checks
     }
+}
+
+- (CGSize)mapSize{
+    return CGSizeMake(mapWidth, mapHeight);
 }
 
 @end

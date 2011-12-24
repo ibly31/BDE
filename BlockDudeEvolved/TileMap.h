@@ -20,12 +20,17 @@
 @property int mapWidth;
 @property int mapHeight;
 
-- (id)initWithMap:(int)map gameScene:(GameScene *)gs;
+- (id)init;
+- (void)loadMap:(int)map;
+
+- (void)toggleOutlines;
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn;
 - (void)setOffsetToCenterOn:(CGPoint)centerOn animated:(BOOL)animated;
 
 - (void)setTileAtX:(int)x Y:(int)y value:(int)value;
 - (int)tileAtX:(int)x Y:(int)y;
+
+- (CGSize)mapSize;
 
 @end
