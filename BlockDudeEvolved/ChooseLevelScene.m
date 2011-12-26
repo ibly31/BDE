@@ -32,18 +32,18 @@
     return self;
 }
 
-- (void)didSelectLevel:(int)level{
+- (void)didSelectLevel:(NSString *)level custom:(BOOL)custom{
     if(levelEditorMode){
-        if(level == 0){
+        if([level compare:@"Level 0"] == NSOrderedSame){
             [self toMenu];
         }else{
-            [self editLevel: level];
+            [self editLevel: level custom:custom];
         }
     }else{
-        if(level == 0){
+        if([level compare:@"Level 0"] == NSOrderedSame){
             [self toMenu];
         }else{
-            [self playLevel: level];
+            [self playLevel: level custom:custom];
         }
     }
 }
@@ -52,14 +52,14 @@
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f];
 }
 
-- (void)playLevel:(int)level{
-    GameScene *gs = [[GameScene alloc] initWithLevel: level];
+- (void)playLevel:(NSString *)level custom:(BOOL)custom{
+    GameScene *gs = [[GameScene alloc] initWithLevel: level custom:custom];
     [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
 }
 
-- (void)editLevel:(int)level{
-    LevelEditorScene *les = [[LevelEditorScene alloc] initWithLevel: level];
+- (void)editLevel:(NSString *)level custom:(BOOL)custom{
+    LevelEditorScene *les = [[LevelEditorScene alloc] initWithLevel: level custom:custom];
     [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:les]];
     [les release];
 }

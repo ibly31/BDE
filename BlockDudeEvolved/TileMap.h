@@ -21,7 +21,8 @@
 @property int mapHeight;
 
 - (id)init;
-- (void)loadMap:(int)map;
+- (void)loadMapWithString:(NSString *)mapName custom:(BOOL)custom;
+- (NSString *)dataString;
 
 - (void)toggleOutlines;
 
@@ -30,6 +31,8 @@
 
 - (void)setTileAtX:(int)x Y:(int)y value:(int)value;
 - (int)tileAtX:(int)x Y:(int)y;
+- (CGPoint)whichTile:(CGPoint)touchLocation;
+- (CGPoint)countPlayerAndExits;
 
 - (CGSize)mapSize;
 

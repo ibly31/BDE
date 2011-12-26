@@ -17,10 +17,10 @@
 
 @property BOOL levelEditorMode;
 
-- (void)didSelectLevel:(int)level;
+- (void)didSelectLevel:(NSString *)level custom:(BOOL)custom;
 - (void)toMenu;
 
-- (void)playLevel:(int)level;
-- (void)editLevel:(int)level;
+- (void)playLevel:(NSString *)level custom:(BOOL)custom;
+- (void)editLevel:(NSString *)level custom:(BOOL)custom;
 
 @end

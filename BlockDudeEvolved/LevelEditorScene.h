@@ -14,18 +14,27 @@
     TileMap *map;
     EditorInputLayer *inputLayer;
     
+    CGPoint currentPlayerPosition;
+    CGPoint currentExitPosition;
+    NSString *currentMap;
+    
     int currentTile;
     CGPoint centerOn;
 }
 
-- (id)initWithLevel:(int)level;
+- (id)initWithLevel:(NSString *)level custom:(BOOL)custom;
 
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) EditorInputLayer *inputLayer;
+@property (nonatomic, retain) NSString *currentMap;
+@property CGPoint currentPlayerPosition;
+@property CGPoint currentExitPosition;
 @property int currentTile;
 
 - (void)didTapOnTile:(CGPoint)tile;
-
 - (void)addDifferenceToCenterOn:(CGPoint)difference;
+
+- (void)promptSave;
+- (void)saveWithFileName:(NSString *)fileName;
 
 @end

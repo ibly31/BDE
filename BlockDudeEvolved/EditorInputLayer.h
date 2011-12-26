@@ -11,6 +11,14 @@
 @interface EditorInputLayer : CCLayer{
     CGPoint previousDragLocation;
     CGPoint touchStartLocation;
+    
+    CCSprite *panOrDraw;
+    BOOL panMode;
+    
+    CCMenu *chooseTileMenu;
 }
+
+@property (nonatomic, retain) CCMenu *chooseTileMenu;
+@property (nonatomic, retain) CCSprite *panOrDraw;
 
 @end

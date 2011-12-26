@@ -17,10 +17,10 @@
 @synthesize timeTakenLabel;
 @synthesize menu;
 
-- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time levelNumber:(int)level{
+- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time level:(NSString *)level{
     self = [super init];
     if(self){
-        levelNumber = level;
+        levelNumber = 0;
 
         AppDelegate *del = [[UIApplication sharedApplication] delegate];
         [[del gameCenterModel] reportAchievementIdentifier:[NSString stringWithFormat:@"Level%iComplete", level] percentComplete:100.0f];

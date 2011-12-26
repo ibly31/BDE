@@ -22,18 +22,19 @@ enum {
 @implementation GameScene
 @synthesize map;
 @synthesize inputLayer;
-
 @synthesize timeLabel;
 
 @synthesize player;
 @synthesize carryingBlock;
 
 @synthesize currentLevel;
+@synthesize currentCustom;
 
-- (id)initWithLevel:(int)level{
+- (id)initWithLevel:(NSString *)level custom:(BOOL)custom{
     self = [super init];
     if(self){
         self.currentLevel = level;
+        self.currentCustom = custom;
         
         moves = 0;
         startInterval = [[NSDate date] timeIntervalSince1970];
@@ -49,7 +50,7 @@ enum {
         
         self.map = [[TileMap alloc] init];
         [self addChild: map];
-        [map loadMap: currentLevel];
+        [map loadMapWithString:level custom:custom];
         if(playerX == -1 && playerY == -1){
             NSLog(@"Never set playerlocation. Defaulting to 1,1");
             playerX = 1; playerY = 1;
@@ -88,6 +89,8 @@ enum {
         [self addChild: inputLayer];
         
         [self schedule:@selector(updateTimeLabel) interval:.01f];
+        
+        [self fall];    // Make sure no floating spawns
     }
     return self;
 }
@@ -97,7 +100,7 @@ enum {
     
     NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
     
-    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval levelNumber:currentLevel];
+    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval level:currentLevel];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gos]];
     [gos release];
 }

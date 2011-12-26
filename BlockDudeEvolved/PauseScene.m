@@ -62,33 +62,27 @@
     [super onEnter];
 }
 
-- (void)onExit{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    [super onExit];
-}
-
 - (void)returnToGame{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f];
 }
 
-/*- (void)options{
-    OptionsScene *os = [[OptionsScene alloc] init];
-    [[CCDirector sharedDirector] pushScene:[CCTransitionFade transitionWithDuration:0.5f scene:os]];
-    [os release];
-}*/
-
 - (void)restartLevel{
-    int currentLevel = [gsUpper currentLevel];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    NSString *currentLevel = [gsUpper currentLevel];
+    BOOL currentCustom = [gsUpper currentCustom];
     [[CCDirector sharedDirector] popScene];
-    GameScene *gs = [[GameScene alloc] initWithLevel: currentLevel];
+    GameScene *gs = [[GameScene alloc] initWithLevel: currentLevel custom:currentCustom];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
 }
 
 - (void)exitGame{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [[CCDirector sharedDirector] popScene];
     CCScene *mms = [[MainMenuScene alloc] init];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:mms]];
+    [mms release];
 }
 
 @end

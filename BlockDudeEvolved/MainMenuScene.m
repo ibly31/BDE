@@ -56,6 +56,16 @@
     return self;
 }
 
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if(buttonIndex == 1){
+        
+    }else{
+        ChooseLevelScene *cls = [[ChooseLevelScene alloc] initWithLevelEditorMode: YES];
+        [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:cls]];
+        [cls release];
+    }
+}
+
 - (void)selectLevel{
     ChooseLevelScene *cls = [[ChooseLevelScene alloc] initWithLevelEditorMode: NO];
     [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:cls]];
@@ -63,9 +73,15 @@
 }
 
 - (void)editLevel{
-    ChooseLevelScene *cls = [[ChooseLevelScene alloc] initWithLevelEditorMode: YES];
-    [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:cls]];
-    [cls release];
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"FirstEdit"] == nil){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstEdit"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Create New or Edit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create New", @"Edit Existing", nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 - (void)options{

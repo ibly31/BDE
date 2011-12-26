@@ -14,13 +14,19 @@
 @interface LevelSelectViewController : UITableViewController{
     RootViewController *rvc;
     ChooseLevelScene *cls;
+    NSMutableArray *customLevelArray;
+    
+    NSIndexPath *fileToChange;
 }
 
 - (id)initWithRVC:(RootViewController *)rootViewController chooseLevelScene:(ChooseLevelScene *)chooseLevelScene;
 
 @property (nonatomic, retain) RootViewController *rvc;
 @property (nonatomic, retain) ChooseLevelScene *cls;
+@property (nonatomic, retain) NSMutableArray *customLevelArray;
+@property (nonatomic, retain) NSIndexPath *fileToChange;
 
-- (void)editLevel;
+- (void)deleteCustomLevel:(NSString *)customLevel;
+- (void)renameCustomLevel:(NSString *)newName;
 
 @end

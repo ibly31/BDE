@@ -9,7 +9,7 @@
 #import "cocos2d.h"
 #import <GameKit/GameKit.h>
 
-@interface MainMenuScene : CCScene{
+@interface MainMenuScene : CCScene <UIAlertViewDelegate>{
     CCLabelTTF *titleLabel;
     
     CCMenu *menu;

@@ -25,7 +25,7 @@
 
 @property (nonatomic, retain) CCMenu *menu;
 
-- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time levelNumber:(int)level;
+- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time level:(NSString *)level;
 
 - (void)toMenu;
 - (void)toAchievements;
