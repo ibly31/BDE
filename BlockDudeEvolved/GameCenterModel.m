@@ -38,14 +38,19 @@
 }
 
 - (void)openLeaderboardViewer{
+    [self openLeaderboardViewerWithCategory: @"BDEL1Times"];
+}
+
+- (void)openLeaderboardViewerWithCategory:(NSString *)category{
     AppDelegate *del = [[UIApplication sharedApplication] delegate];
     RootViewController *rvc = [del viewController];
-
+    
     if([GKLocalPlayer localPlayer].isAuthenticated){
         GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
         if(leaderboardController != nil){
             leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
             leaderboardController.leaderboardDelegate = self;
+            leaderboardController.category = category;
             [rvc presentModalViewController:leaderboardController animated:YES];
         }
     }else{

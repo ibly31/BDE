@@ -54,7 +54,7 @@
 
 - (void)playLevel:(NSString *)level custom:(BOOL)custom{
     GameScene *gs = [[GameScene alloc] initWithLevel: level custom:custom];
-    [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
+    [[CCDirector sharedDirector] pushScene: gs];//[CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
 }
 

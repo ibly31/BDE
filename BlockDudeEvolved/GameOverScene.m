@@ -20,34 +20,39 @@
 - (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time level:(NSString *)level{
     self = [super init];
     if(self){
-        levelNumber = 0;
-
-        AppDelegate *del = [[UIApplication sharedApplication] delegate];
-        [[del gameCenterModel] reportAchievementIdentifier:[NSString stringWithFormat:@"Level%iComplete", level] percentComplete:100.0f];
-        [[del gameCenterModel] reportLeaderboardCategory:[NSString stringWithFormat:@"BDEL%iTimes", level] score:time];
+        levelString = level;
+        if([levelString length] >= 7 && [levelString length] <= 8){
+            NSString *lastCouple = [levelString substringFromIndex: 6];
+            int levelNumber = [lastCouple intValue];
+            if(levelNumber >= 1 && levelNumber <= 22){
+                AppDelegate *del = [[UIApplication sharedApplication] delegate];
+                [[del gameCenterModel] reportAchievementIdentifier:[NSString stringWithFormat:@"Level%iComplete", levelNumber] percentComplete:100.0f];
+                [[del gameCenterModel] reportLeaderboardCategory:[NSString stringWithFormat:@"BDEL%iTimes", levelNumber] score:time];
         
-        int numberOriginalComplete = 0;
-        for(int x = 1; x <= 11; x++){
-            if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete", level]]){
-                if([[del gameCenterModel] getAchievementForIdentifier:[NSString stringWithFormat:@"Level%iComplete", level]].completed)
-                    numberOriginalComplete++;
+                int numberOriginalComplete = 0;
+                for(int x = 1; x <= 11; x++){
+                    if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete", levelNumber]]){
+                        if([[del gameCenterModel] getAchievementForIdentifier:[NSString stringWithFormat:@"Level%iComplete", levelNumber]].completed)
+                            numberOriginalComplete++;
+                    }
+                }
+                
+                if(numberOriginalComplete > 0){
+                    [[del gameCenterModel] reportAchievementIdentifier:@"OriginalLevelsComplete" percentComplete:100.0f * ((float)numberOriginalComplete / 11.0f)];
+                }
+                
+                int numberTotalComplete = numberOriginalComplete;       // Save some time, don't recalc original.
+                for(int x = 12; x <= 22; x++){
+                    if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete", levelNumber]]){
+                        if([[del gameCenterModel] getAchievementForIdentifier:[NSString stringWithFormat:@"Level%iComplete", levelNumber]].completed)
+                            numberTotalComplete++;
+                    }
+                }
+                
+                if(numberTotalComplete > 0){
+                    [[del gameCenterModel] reportAchievementIdentifier:@"All22LevelsComplete" percentComplete:100.0f * ((float)numberTotalComplete / 22.0f)];
+                }
             }
-        }
-        
-        if(numberOriginalComplete > 0){
-            [[del gameCenterModel] reportAchievementIdentifier:@"OriginalLevelsComplete" percentComplete:100.0f * ((float)numberOriginalComplete / 11.0f)];
-        }
-        
-        int numberTotalComplete = numberOriginalComplete;       // Save some time, don't recalc original.
-        for(int x = 12; x <= 22; x++){
-            if([[del gameCenterModel] achievementExistsForIdentifier:[NSString stringWithFormat:@"Level%iComplete"]]){
-                if([[del gameCenterModel] getAchievementForIdentifier:[NSString stringWithFormat:@"Level%iComplete"]].completed)
-                    numberTotalComplete++;
-            }
-        }
-        
-        if(numberTotalComplete > 0){
-            [[del gameCenterModel] reportAchievementIdentifier:@"All22LevelsComplete" percentComplete:100.0f * ((float)numberTotalComplete / 22.0f)];
         }
         
         movesScore = moves;
@@ -103,8 +108,13 @@
 }
 
 - (void)toLeaderboards{
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];    
-    [[del gameCenterModel] openLeaderboardViewer];
+    if([levelString length] >= 7 && [levelString length] <= 8){
+        NSString *lastCouple = [levelString substringFromIndex: 6];
+        int levelNumber = [lastCouple intValue];
+        AppDelegate *del = [[UIApplication sharedApplication] delegate];  
+        [[del gameCenterModel] openLeaderboardViewerWithCategory:[NSString stringWithFormat:@"BDEL%iTimes", levelNumber]];
+    }
+    
 }
 
 @end

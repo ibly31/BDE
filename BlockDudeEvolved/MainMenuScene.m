@@ -11,6 +11,8 @@
 #import "OptionsScene.h"
 #import "RootViewController.h"
 #import "AppDelegate.h"
+#import "LevelEditorScene.h"
+#import "SaveLevelViewController.h"
 
 @implementation MainMenuScene
 @synthesize titleLabel;
@@ -23,7 +25,7 @@
         [titleLabel setPosition: ccp(240, 280)];
         [self addChild: titleLabel];
         
-        CCLabelTTF *selectLevel = [[CCLabelTTF alloc] initWithString:@"Select Level" fontName:@"Krungthep" fontSize:28];
+        CCLabelTTF *selectLevel = [[CCLabelTTF alloc] initWithString:@"Play Level" fontName:@"Krungthep" fontSize:28];
         CCMenuItemLabel *selectLevelLabel = [[CCMenuItemLabel alloc] initWithLabel:selectLevel target:self selector:@selector(selectLevel)];
         [selectLevelLabel setPosition: ccp(250, 160)];
         
@@ -56,10 +58,19 @@
     return self;
 }
 
+- (void)createWithWidth:(int)width height:(int)height{
+    LevelEditorScene *les = [[LevelEditorScene alloc] initWithWidth:width height:height];
+    [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:les]];
+    [les release];
+}
+
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 1){
-        
-    }else{
+        AppDelegate *del = [[UIApplication sharedApplication] delegate];
+        RootViewController *rvc = [del viewController];
+        SaveLevelViewController *slvc = [[SaveLevelViewController alloc] initWithNibName:@"SaveLevelViewController" rootViewController:rvc mainMenuScene:self];
+        [rvc presentViewController:slvc animated:YES completion:^(void){}];
+    }else if(buttonIndex == 2){
         ChooseLevelScene *cls = [[ChooseLevelScene alloc] initWithLevelEditorMode: YES];
         [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:cls]];
         [cls release];
@@ -73,15 +84,29 @@
 }
 
 - (void)editLevel{
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"FirstEdit"] == nil){
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstEdit"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }else{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:(NSString *)[paths objectAtIndex:0] error:nil];
+    int numberOfCustoms = 0;
+    
+    for(int x = 0; x < [files count]; x++){
+        NSString *file = [files objectAtIndex: x];
+        if([file length] >= 5){
+            NSString *sub = [file substringFromIndex: [file length] - 4];
+            if([sub compare: @".txt"] == NSOrderedSame){
+                numberOfCustoms++;
+            }
+        }
+    }
+    
+    if(numberOfCustoms != 0){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Create New or Edit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create New", @"Edit Existing", nil];
         [alert show];
         [alert release];
+    }else{
+        
     }
+
 }
 
 - (void)options{

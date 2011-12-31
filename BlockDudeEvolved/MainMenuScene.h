@@ -24,4 +24,6 @@
 - (void)toLeaderboards;
 - (void)toAchievements;
 
+- (void)createWithWidth:(int)width height:(int)height;
+
 @end

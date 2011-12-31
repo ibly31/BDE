@@ -14,8 +14,8 @@
     CCLabelTTF *timeTakenLabel;
     
     NSTimeInterval timeScore;
+    NSString *levelString;
     int movesScore;
-    int levelNumber;
     
     CCMenu *menu;
 }

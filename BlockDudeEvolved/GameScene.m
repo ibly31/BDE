@@ -90,13 +90,15 @@ enum {
         
         [self schedule:@selector(updateTimeLabel) interval:.01f];
         
-        [self fall];    // Make sure no floating spawns
+        [self schedule:@selector(fall) interval:0.5f];    // Make sure no floating spawns
     }
     return self;
 }
 
 - (void)winGame{
-    [self unschedule: @selector(updateTimeLabel)];
+    [self unscheduleAllSelectors];
+    [(InputLayerButtons *)inputLayer setAcceptInput: NO];
+    
     
     NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
     
@@ -327,6 +329,7 @@ enum {
 }
 
 - (void)fall{
+    [self unschedule:@selector(fall)];
     int blockUnder = [map tileAtX:playerX Y:playerY+1];
     if(blockUnder == 0){
         fallAttempts = 0;           // Provide a break to the infinite loop
@@ -343,6 +346,10 @@ enum {
         }else{
             [self schedule: @selector(attemptFall) interval: 0.03f];
         }
+    }else if(blockUnder == 4){
+        playerY++;
+        [map setOffsetToCenterOn: ccp(playerX, playerY)];
+        [self winGame];
     }
 }
 

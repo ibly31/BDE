@@ -24,5 +24,6 @@
 
 - (void)openAchievementViewer;
 - (void)openLeaderboardViewer;
+- (void)openLeaderboardViewerWithCategory:(NSString *)category;
 
 @end

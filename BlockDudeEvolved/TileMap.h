@@ -22,6 +22,8 @@
 
 - (id)init;
 - (void)loadMapWithString:(NSString *)mapName custom:(BOOL)custom;
+- (void)createMapWithWidth:(int)width height:(int)height;
+
 - (NSString *)dataString;
 
 - (void)toggleOutlines;

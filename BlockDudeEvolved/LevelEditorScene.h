@@ -23,6 +23,7 @@
 }
 
 - (id)initWithLevel:(NSString *)level custom:(BOOL)custom;
+- (id)initWithWidth:(int)width height:(int)height;
 
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) EditorInputLayer *inputLayer;

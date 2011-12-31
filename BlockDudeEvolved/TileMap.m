@@ -89,6 +89,21 @@
     }
 }
 
+- (void)createMapWithWidth:(int)width height:(int)height{
+    mapWidth = width;
+    mapHeight = height;
+            
+    for(int y = 0; y < mapHeight; y++){
+        for(int x = 0; x < mapWidth; x++){
+            CCSprite *currentSprite = [[CCSprite alloc] initWithTexture:[self texture] rect:CGRectMake(0, 0, 32, 32)];
+            [currentSprite setPosition: ccp(x * 32, 304 - (y * 32))];
+            [currentSprite setScale: 32.0f/32.0f];
+            [self addChild: currentSprite];
+            [currentSprite release];
+        }
+    }
+}
+
 - (NSString *)dataString{
     NSMutableString *string = [[NSMutableString alloc] initWithFormat:@"%i,%i,", mapWidth, mapHeight];
     for(int y = 0; y < mapHeight; y++){
@@ -136,6 +151,8 @@
 
 - (int)tileAtX:(int)x Y:(int)y{
     int index = (y*mapWidth) + x;
+    if(x >= mapWidth || y >= mapHeight)
+        return 1;
     if(index >= 0 && index < mapWidth * mapHeight){
         CCSprite *childAtIndex = (CCSprite *)[children_ objectAtIndex: index];
         CCSpriteFrame *dframe = [childAtIndex displayedFrame];
