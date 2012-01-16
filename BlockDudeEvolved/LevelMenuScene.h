@@ -11,7 +11,6 @@
 @class LevelEditorScene;
 
 @interface LevelMenuScene : CCScene{
-    
     CCLabelTTF *pauseLabel;
     CCMenu *menu;
 

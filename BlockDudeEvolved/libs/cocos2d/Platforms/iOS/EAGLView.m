@@ -203,7 +203,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void) layoutSubviews
 {
-    [renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
+    //[renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
+    [renderer_ performSelector: @selector(resizeFromLayer:) withObject: self.layer afterDelay: 0.01f];
+    
 	size_ = [renderer_ backingSize];
 
 	// Issue #914 #924

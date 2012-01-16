@@ -25,8 +25,8 @@
         [menuButton setPosition: ccp(240, 304)];
         [self addChild: menuButton];
         
-        CCSprite *selectorBackground = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(0, 256, 246, 44)];
-        [selectorBackground setPosition: ccp(220, 32)];
+        CCSprite *selectorBackground = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(0, 256, 288, 44)];
+        [selectorBackground setPosition: ccp(240, 32)];
         [self addChild: selectorBackground];
         
         CCSprite *blank = [[CCSprite alloc] initWithFile:@"Original.png" rect:CGRectMake(0, 0, 32, 32)];
@@ -61,19 +61,25 @@
         
         panMode = YES;
         
-        self.panOrDraw = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(256, 256, 32, 32)];
+        self.panOrDraw = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(288, 256, 32, 32)];
         CCMenuItemSprite *panOrDrawItem = [CCMenuItemSprite itemFromNormalSprite:panOrDraw selectedSprite:nil block:^(id sender){
             if(panMode){
                 panMode = NO;
-                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(288, 256, 32, 32)]];
+                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(320, 256, 32, 32)]];
             }else{
                 panMode = YES;
-                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(256, 256, 32, 32)]];
+                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(288, 256, 32, 32)]];
             }
         }];
         [panOrDrawItem setPosition: ccp(118,32)];
         
-        self.chooseTileMenu = [CCMenu menuWithItems:blankItem, brickItem, blockItem, playerItem, doorItem, panOrDrawItem, nil];
+        CCSprite *centerView = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(352, 256, 32, 32)];
+        CCMenuItemSprite *centerViewItem = [CCMenuItemSprite itemFromNormalSprite:centerView selectedSprite:nil block:^(id sender){
+            [(LevelEditorScene *)parent_ centerMap];
+        }];
+        [centerViewItem setPosition: ccp(362, 32)];
+        
+        self.chooseTileMenu = [CCMenu menuWithItems:blankItem, brickItem, blockItem, playerItem, doorItem, panOrDrawItem, centerViewItem, nil];
         [chooseTileMenu setPosition: ccp(0,0)];
         [self addChild: chooseTileMenu];
     }

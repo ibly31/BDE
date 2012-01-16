@@ -126,17 +126,41 @@
     }
 }
 
+- (void)levelEditAnimation:(BOOL)which{
+    if(which){
+        for(int index = 0; index < [children_ count]; index++){
+            CCSprite *childAtIndex = (CCSprite *)[children_ objectAtIndex: index];
+            [childAtIndex setScale:0.0f];   // 31/32 so that 1 pixel border shows
+            [childAtIndex setRotation: CCRANDOM_0_1() * 1080.0f];
+        }
+    }else {
+        for(int index = 0; index < [children_ count]; index++){
+            CCSprite *childAtIndex = (CCSprite *)[children_ objectAtIndex: index];
+            [childAtIndex runAction: [CCScaleTo actionWithDuration:CCRANDOM_0_1() * 0.25f + 0.35f scale:0.96875f]];
+            [childAtIndex runAction: [CCRotateTo actionWithDuration:CCRANDOM_0_1() * 0.25f + 0.35f angle:0.0f]];
+            //[childAtIndex setScale:0.96875f];   // 31/32 so that 1 pixel border shows
+        }
+    }
+}
+
 - (void)setOffsetToCenterOn:(CGPoint)centerOn{
     [self setOffsetToCenterOn:centerOn animated:!animate];
 }
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn animated:(BOOL)animated{
     CGPoint flippedLocation = ccp(centerOn.x, 10.0f - centerOn.y);
-    if(animated)
-        [self runAction: [CCMoveTo actionWithDuration:0.05f position: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)]];
-    else
-        [self setPosition: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)];
-
+    
+    if([parent_ class] == [GameScene class]){
+        if(animated)
+            [self runAction: [CCMoveTo actionWithDuration:0.05f position: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)]];
+        else
+            [self setPosition: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)];
+    }else{
+        if(animated)
+            [self runAction: [CCMoveTo actionWithDuration:0.15f position: ccp((flippedLocation.x * -32.0f) + 256.0f, (flippedLocation.y * -32.0f) + 160.0f)]];
+        else
+            [self setPosition: ccp((flippedLocation.x * -32.0f) + 256.0f, (flippedLocation.y * -32.0f) + 160.0f)];
+    }
 }
 
 - (void)setTileAtX:(int)x Y:(int)y value:(int)value{
@@ -151,7 +175,7 @@
 
 - (int)tileAtX:(int)x Y:(int)y{
     int index = (y*mapWidth) + x;
-    if(x >= mapWidth || y >= mapHeight)
+    if(x >= mapWidth || y >= mapHeight || x < 0 || y < 0)
         return 1;
     if(index >= 0 && index < mapWidth * mapHeight){
         CCSprite *childAtIndex = (CCSprite *)[children_ objectAtIndex: index];
@@ -165,6 +189,7 @@
     }else{
         NSLog(@"Cannot get tile (%i,%i), out of bounds.", x, y);
         return 1;           // Fake a brick block, for OOB checks
+        // This code should never even be called due to earlier checks
     }
 }
 

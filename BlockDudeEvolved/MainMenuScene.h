@@ -9,9 +9,8 @@
 #import "cocos2d.h"
 #import <GameKit/GameKit.h>
 
-@interface MainMenuScene : CCScene <UIAlertViewDelegate>{
+@interface MainMenuScene : CCScene{
     CCLabelTTF *titleLabel;
-    
     CCMenu *menu;
 }
 
@@ -23,7 +22,5 @@
 - (void)options;
 - (void)toLeaderboards;
 - (void)toAchievements;
-
-- (void)createWithWidth:(int)width height:(int)height;
 
 @end

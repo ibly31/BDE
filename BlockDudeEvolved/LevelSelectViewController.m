@@ -12,16 +12,23 @@
 #import "SaveLevelViewController.h"
 
 @implementation LevelSelectViewController
-@synthesize rvc;
 @synthesize cls;
 @synthesize customLevelArray;
 @synthesize fileToChange;
 
-- (id)initWithRVC:(RootViewController *)rootViewController chooseLevelScene:(ChooseLevelScene *)chooseLevelScene{
+- (id)initWithChooseLevelScene:(ChooseLevelScene *)chooseLevelScene{
     self = [super initWithStyle:UITableViewStyleGrouped];
     if(self){
-        self.rvc = rootViewController;
         self.cls = chooseLevelScene;
+        self.title = @"Select Level";
+        
+        if([cls levelEditorMode]){
+            UIBarButtonItem *toggleEdit = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(toggleEditing)];            
+            UIBarButtonItem *addNew = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:cls action:@selector(addNew)];
+            [self.navigationItem setRightBarButtonItems: [NSArray arrayWithObjects:toggleEdit, addNew, nil]];
+            [toggleEdit release];
+            [addNew release];
+        }
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:(NSString *)[paths objectAtIndex:0] error:nil];
@@ -50,42 +57,22 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)viewDidLoad{
     self.tableView.allowsSelectionDuringEditing = YES;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    [super viewDidLoad];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+- (void)viewDidUnload{
+    [super viewDidUnload];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
@@ -94,6 +81,26 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    [headerLabel setFont: [UIFont fontWithName:@"Krungthep" size:18.0f]];
+    [headerLabel setTextColor: [UIColor grayColor]];
+    if([cls levelEditorMode]){
+        if(section == 0){
+            [headerLabel setText:@"    Custom Levels"];
+        }else{
+            [headerLabel setText:@"    Default Levels"];
+        }
+    }else{
+        if(section == 0){
+            [headerLabel setText:@"    Default Levels"];
+        }else{
+            [headerLabel setText:@"    Custom Levels"];
+        }
+    }
+    return headerLabel;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -117,12 +124,12 @@
 {
     if([cls levelEditorMode]){
         if(section == 1)
-            return 23;
+            return 22;
         else
-            return [customLevelArray count] + 1;
+            return [customLevelArray count];
     }else{
         if(section == 0)
-            return 23;
+            return 22;
         else
             return [customLevelArray count];
     }
@@ -143,20 +150,14 @@
     }
     
     if([cls levelEditorMode]){
-        if(indexPath.section == 1 && indexPath.row == 0){
-            cell.textLabel.text = @"Go Back";
-        }else if(indexPath.section == 0 && indexPath.row == 0){
-            cell.textLabel.text = @"Delete/Rename Custom Levels";
-        }else if(indexPath.section == 1){
-            cell.textLabel.text = [NSString stringWithFormat:@"Level %i", indexPath.row];
+        if(indexPath.section == 1){
+            cell.textLabel.text = [NSString stringWithFormat:@"Level %i", indexPath.row + 1];
         }else{
-            cell.textLabel.text = [customLevelArray objectAtIndex: indexPath.row - 1];
+            cell.textLabel.text = [customLevelArray objectAtIndex: indexPath.row];
         }
     }else{
-        if(indexPath.section == 0 && indexPath.row == 0){
-            cell.textLabel.text = @"Go Back";
-        }else if(indexPath.section == 0){
-            cell.textLabel.text = [NSString stringWithFormat:@"Level %i", indexPath.row];
+        if(indexPath.section == 0){
+            cell.textLabel.text = [NSString stringWithFormat:@"Level %i", indexPath.row + 1];
         }else{
             cell.textLabel.text = [customLevelArray objectAtIndex: indexPath.row];
         }
@@ -167,7 +168,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([cls levelEditorMode]){
-        if(indexPath.section == 0 && indexPath.row != 0){
+        if(indexPath.section == 0){
             return YES;
         }else{
             return NO;
@@ -179,9 +180,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if(editingStyle == UITableViewCellEditingStyleDelete){
-        NSString *fileToDelete = [customLevelArray objectAtIndex: indexPath.row - 1];
+        NSString *fileToDelete = [customLevelArray objectAtIndex: indexPath.row];
         [self deleteCustomLevel: fileToDelete];
-        [customLevelArray removeObjectAtIndex: indexPath.row - 1];
+        [customLevelArray removeObjectAtIndex: indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } 
 }
@@ -194,9 +195,9 @@
 
 - (void)renameCustomLevel:(NSString *)newName{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *oldName = [customLevelArray objectAtIndex: fileToChange.row - 1];
+    NSString *oldName = [customLevelArray objectAtIndex: fileToChange.row];
     [[NSFileManager defaultManager] moveItemAtPath:[NSString stringWithFormat:@"%@/%@.txt", [paths objectAtIndex:0], oldName] toPath:[NSString stringWithFormat:@"%@/%@.txt", [paths objectAtIndex:0], newName] error:nil];
-    [customLevelArray replaceObjectAtIndex:fileToChange.row - 1 withObject:newName];
+    [customLevelArray replaceObjectAtIndex:fileToChange.row withObject:newName];
     UITableViewCell *cellToChange = [self.tableView cellForRowAtIndexPath: fileToChange];
     [cellToChange.textLabel setText: newName];
 }
@@ -221,32 +222,35 @@
 }
 */
 
+- (void)toggleEditing{
+    if([self.tableView isEditing]){
+        [self.tableView setEditing:NO animated:YES];
+    }else{
+        [self.tableView setEditing:YES animated:YES];
+    }
+}
+
 #pragma mark - Table view delegate
                          
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([cls levelEditorMode] && indexPath.section == 0 && indexPath.row == 0){
-        if(tableView.editing)
-            [tableView setEditing:NO animated:YES];
-        else
-            [tableView setEditing:YES animated:YES];
-        return;
-    }
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    UINavigationController *navController = [del navController];
     
     if([cls levelEditorMode]){
         if([indexPath section] == 1){
-            [cls didSelectLevel: [NSString stringWithFormat:@"Level %i", [indexPath row]] custom:NO];
-            [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+            [cls didSelectLevel: [NSString stringWithFormat:@"Level %i", [indexPath row] + 1] custom:NO];   // -1 to make first row be level 1
+            [navController popToRootViewControllerAnimated:YES];
         }else{
-            [cls didSelectLevel: [customLevelArray objectAtIndex:indexPath.row - 1] custom:YES];    // -1 for edit
-            [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+            [cls didSelectLevel: [customLevelArray objectAtIndex:indexPath.row] custom:YES];
+            [navController popToRootViewControllerAnimated:YES];
         }
     }else{
         if([indexPath section] == 0){
-            [cls didSelectLevel: [NSString stringWithFormat:@"Level %i", [indexPath row]] custom:NO];
-            [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+            [cls didSelectLevel: [NSString stringWithFormat:@"Level %i", [indexPath row] + 1] custom:NO];
+            [navController popToRootViewControllerAnimated:YES];
         }else{
-            [cls didSelectLevel: [customLevelArray objectAtIndex:indexPath.row] custom:YES];        // not -1 for edit
-            [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+            [cls didSelectLevel: [customLevelArray objectAtIndex:indexPath.row] custom:YES];
+            [navController popToRootViewControllerAnimated:YES];
         }
     }
 }
@@ -254,8 +258,9 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     self.fileToChange = indexPath;
     SaveLevelViewController *slvc = [[SaveLevelViewController alloc] initWithNibName:@"SaveLevelViewController" levelSelectViewController:self];
-    slvc.fileNameSuggest = [customLevelArray objectAtIndex: indexPath.row - 1];
-    [self presentViewController:slvc animated:YES completion:^(void){}];
+    slvc.fileNameSuggest = [customLevelArray objectAtIndex: indexPath.row];
+    [self.navigationController pushViewController:slvc animated:YES];
+    [slvc release];
 }
 
 @end

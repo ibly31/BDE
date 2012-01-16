@@ -16,6 +16,7 @@
 
 @implementation AppDelegate
 @synthesize window;
+@synthesize navController;
 @synthesize viewController;
 @synthesize gameCenterModel;
 
@@ -37,21 +38,23 @@
 	if(![CCDirector setDirectorType:kCCDirectorTypeDisplayLink])
 		[CCDirector setDirectorType:kCCDirectorTypeDefault];
 	
-	
 	CCDirector *director = [CCDirector sharedDirector];
-	
+	    
 	self.viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
 	viewController.wantsFullScreenLayout = YES;
 	
-	EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
-								   pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
-								   depthFormat:0						// GL_DEPTH_COMPONENT16_OES
-						];
+    self.navController = [[UINavigationController alloc] initWithRootViewController: viewController];
+    [navController setNavigationBarHidden:YES];
+    [navController.navigationBar setTintColor:[UIColor blackColor]];
+    NSDictionary *titleTextAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[UIFont fontWithName:@"Krungthep" size:18.0f], nil]
+                                                                      forKeys:[NSArray arrayWithObjects:UITextAttributeFont, nil]];
+    [navController.navigationBar setTitleTextAttributes: titleTextAttributes];
+    [navController.navigationBar setTitleVerticalPositionAdjustment:-2.0f forBarMetrics:UIBarMetricsLandscapePhone];
+    
+	EAGLView *glView = [EAGLView viewWithFrame:[window bounds] pixelFormat:kEAGLColorFormatRGB565 depthFormat:0];
 	
-	// attach the openglView to the director
 	[director setOpenGLView:glView];
 	
-	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 	if( ! [director enableRetinaDisplay:YES] )
 		CCLOG(@"Retina Display Not supported");
 	
@@ -62,7 +65,7 @@
 	
     [viewController setView:glView];
 	
-	[window addSubview: viewController.view];
+	[window addSubview: navController.view];
 	[window makeKeyAndVisible];
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
 	
@@ -97,6 +100,7 @@
 	[[director openGLView] removeFromSuperview];
 	
 	[viewController release];
+    [navController release];
 	
 	[window release];
 	

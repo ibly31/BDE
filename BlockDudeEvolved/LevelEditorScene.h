@@ -34,6 +34,7 @@
 
 - (void)didTapOnTile:(CGPoint)tile;
 - (void)addDifferenceToCenterOn:(CGPoint)difference;
+- (void)centerMap;
 
 - (void)promptSave;
 - (void)saveWithFileName:(NSString *)fileName;

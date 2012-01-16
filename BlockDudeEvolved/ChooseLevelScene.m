@@ -12,22 +12,25 @@
 #import "LevelSelectViewController.h"
 #import "RootViewController.h"
 #import "LevelEditorScene.h"
+#import "SaveLevelViewController.h"
 
 @implementation ChooseLevelScene
 @synthesize levelEditorMode;
+@synthesize nextPopWillNotBeMenu;
 
 - (id)initWithLevelEditorMode:(BOOL)lem{
     self = [super init];
     if(self){
         self.levelEditorMode = lem;
+        self.nextPopWillNotBeMenu = NO;
         
         AppDelegate *del = [[UIApplication sharedApplication] delegate];
-        RootViewController *rvc = [del viewController];
+        UINavigationController *navController = [del navController];
+        [navController setDelegate: self];
         
-        LevelSelectViewController *lsvc = [[LevelSelectViewController alloc] initWithRVC:rvc chooseLevelScene:self];
-        [rvc presentViewController:lsvc animated:YES completion:^(void){
-            //[[CCDirector sharedDirector] pause];
-        }];
+        LevelSelectViewController *lsvc = [[LevelSelectViewController alloc] initWithChooseLevelScene:self];
+        [navController pushViewController:lsvc animated:YES];
+        [lsvc release];
     }
     return self;
 }
@@ -48,20 +51,49 @@
     }
 }
 
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    if([viewController class] == [RootViewController class]){
+        if(nextPopWillNotBeMenu){
+            nextPopWillNotBeMenu = NO;  // reset the flag or decrement
+        }else{
+            [self toMenu];
+        }
+        [navigationController setNavigationBarHidden:YES animated:YES];
+    }
+}
+
 - (void)toMenu{
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f];
+}
+
+- (void)createWithWidth:(int)width height:(int)height{
+    LevelEditorScene *les = [[LevelEditorScene alloc] initWithWidth:width height:height];
+    [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:les]];
+    [les release];
+    self.nextPopWillNotBeMenu = YES;
+}
+
+- (void)addNew{
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    UINavigationController *navController = [del navController];
+    SaveLevelViewController *slvc = [[SaveLevelViewController alloc] initWithNibName:@"SaveLevelViewController" chooseLevelScene:self];
+    [navController pushViewController:slvc animated:YES];
+    [slvc release];
 }
 
 - (void)playLevel:(NSString *)level custom:(BOOL)custom{
     GameScene *gs = [[GameScene alloc] initWithLevel: level custom:custom];
     [[CCDirector sharedDirector] pushScene: gs];//[CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
+    self.nextPopWillNotBeMenu = YES;  // since there is no way to tell that the pop will be a "back" button (upper left
+                                 // of the nav controller) I have to flag the ones that AREN'T menu pops.
 }
 
 - (void)editLevel:(NSString *)level custom:(BOOL)custom{
     LevelEditorScene *les = [[LevelEditorScene alloc] initWithLevel: level custom:custom];
     [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:les]];
     [les release];
+    self.nextPopWillNotBeMenu = YES;  // same thing for leveleditorscene too
 }
 
 @end

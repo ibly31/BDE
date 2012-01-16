@@ -89,7 +89,6 @@ enum {
         [self addChild: inputLayer];
         
         [self schedule:@selector(updateTimeLabel) interval:.01f];
-        
         [self schedule:@selector(fall) interval:0.5f];    // Make sure no floating spawns
     }
     return self;
@@ -99,10 +98,9 @@ enum {
     [self unscheduleAllSelectors];
     [(InputLayerButtons *)inputLayer setAcceptInput: NO];
     
-    
     NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
     
-    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval level:currentLevel];
+    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval level:currentLevel custom:currentCustom];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gos]];
     [gos release];
 }

@@ -13,11 +13,13 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
 	UIWindow			*window;
+    UINavigationController *navController;
 	RootViewController	*viewController;
     GameCenterModel *gameCenterModel;
 }
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) UINavigationController *navController;
 @property (nonatomic, retain) RootViewController *viewController;
 @property (nonatomic, retain) GameCenterModel *gameCenterModel;
 

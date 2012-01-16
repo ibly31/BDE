@@ -10,6 +10,7 @@
 #import "SaveLevelViewController.h"
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "ChooseLevelScene.h"
 
 @implementation LevelEditorScene
 @synthesize map;
@@ -32,10 +33,8 @@
         [self addChild: map];
         [map loadMapWithString:level custom:custom];
         
-        CGSize mapSize = [map mapSize];
-        centerOn = ccp(mapSize.width / 2.0f, mapSize.height / 2.0f);
-        [map setOffsetToCenterOn:centerOn animated:NO];
-        [map toggleOutlines];
+        [self centerMap];
+        [map levelEditAnimation:YES];
         
         self.inputLayer = [[EditorInputLayer alloc] init];
         [self addChild: inputLayer];
@@ -56,9 +55,7 @@
         [self addChild: map];
         [map createMapWithWidth:width height:height];
         
-        CGSize mapSize = CGSizeMake(width, height);
-        centerOn = ccp(mapSize.width / 2.0f, mapSize.height / 2.0f);
-        [map setOffsetToCenterOn:centerOn animated:NO];
+        [self centerMap];
         [map toggleOutlines];
         
         self.inputLayer = [[EditorInputLayer alloc] init];
@@ -67,8 +64,12 @@
     return self;
 }
 
+- (void)onEnterTransitionDidFinish{
+    [map levelEditAnimation:NO];
+    //[map toggleOutlines];
+}
+
 - (void)saveWithFileName:(NSString *)fileName{
-    NSLog(@"File name: %@", fileName);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [NSString stringWithFormat:@"%@/%@", (NSString *)[paths objectAtIndex:0], fileName];
     NSString *data = [map dataString];
@@ -87,10 +88,11 @@
         [alert release];
     }else{
         AppDelegate *del = [[UIApplication sharedApplication] delegate];
-        RootViewController *rvc = [del viewController];
-        SaveLevelViewController *slvc = [[SaveLevelViewController alloc] initWithNibName:@"SaveLevelViewController" rootViewController:rvc levelEditorScene:self];
+        UINavigationController *navController = [del navController];
+        SaveLevelViewController *slvc = [[SaveLevelViewController alloc] initWithNibName:@"SaveLevelViewController" levelEditorScene:self];
         slvc.fileNameSuggest = currentMap;      
-        [rvc presentViewController:slvc animated:YES completion:^(void){}];
+        [navController pushViewController:slvc animated:YES];
+        [slvc release];
     }
 }
 
@@ -101,7 +103,7 @@
         [map setTileAtX:tile.x Y:tile.y value:3];
         currentPlayerPosition = tile;
     }else if(currentTile == 4){
-        if([map tileAtX:currentPlayerPosition.x Y:currentPlayerPosition.y] == 4)
+        if([map tileAtX:currentExitPosition.x Y:currentExitPosition.y] == 4)
             [map setTileAtX:currentExitPosition.x Y:currentExitPosition.y value:0];
         [map setTileAtX:tile.x Y:tile.y value:4];
         currentExitPosition = tile;
@@ -110,11 +112,19 @@
     }
 }
 
+- (void)centerMap{
+    CGSize mapSize = [map mapSize];
+    centerOn = ccp(mapSize.width / 2.0f, mapSize.height / 2.0f);
+    [map setOffsetToCenterOn:centerOn animated:YES];
+}
+
 - (void)addDifferenceToCenterOn:(CGPoint)difference{
     difference = ccpMult(difference, 1.0f/32.0f);
     difference.x = -difference.x;
+    
     centerOn = ccpAdd(centerOn, difference);
     [map setOffsetToCenterOn: centerOn animated:NO];
+    
 }
 
 @end

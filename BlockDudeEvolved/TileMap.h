@@ -27,6 +27,7 @@
 - (NSString *)dataString;
 
 - (void)toggleOutlines;
+- (void)levelEditAnimation:(BOOL)which;
 
 - (void)setOffsetToCenterOn:(CGPoint)centerOn;
 - (void)setOffsetToCenterOn:(CGPoint)centerOn animated:(BOOL)animated;

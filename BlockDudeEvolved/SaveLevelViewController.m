@@ -9,7 +9,8 @@
 #import "SaveLevelViewController.h"
 #import "LevelSelectViewController.h"
 #import "LevelEditorScene.h"
-#import "MainMenuScene.h"
+#import "ChooseLevelScene.h"
+#import "AppDelegate.h"
 
 @implementation SaveLevelViewController
 @synthesize titleLabel;
@@ -17,6 +18,7 @@
 @synthesize levelWidthLabel;
 @synthesize levelHeightLabel;
 @synthesize mapSizeHintLabel;
+@synthesize saveOverHintLabel;
 
 @synthesize saveButton;
 @synthesize backButton;
@@ -28,26 +30,23 @@
 @synthesize fileNameSuggest;
 @synthesize sizeSuggest;
 
-@synthesize rvc;
 @synthesize lsvc;
 @synthesize les;
-@synthesize mms;
+@synthesize cls;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil rootViewController:(RootViewController *)rootViewController mainMenuScene:(MainMenuScene *)mainMenuScene{
+- (id)initWithNibName:(NSString *)nibNameOrNil chooseLevelScene:(ChooseLevelScene *)chooseLevelScene{
     self = [super initWithNibName:nibNameOrNil bundle:nil];
     if(self){
-        self.rvc = rootViewController;
-        self.mms = mainMenuScene;
+        self.cls = chooseLevelScene;
         
         mode = 0;   // Creating
     }
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil rootViewController:(RootViewController *)rootViewController levelEditorScene:(LevelEditorScene *)levelEditorScene{
+- (id)initWithNibName:(NSString *)nibNameOrNil levelEditorScene:(LevelEditorScene *)levelEditorScene{
     self = [super initWithNibName:nibNameOrNil bundle:nil];
     if(self){
-        self.rvc = rootViewController;
         self.les = levelEditorScene;
         
         mode = 1;   // Saving
@@ -126,12 +125,16 @@
 
 - (IBAction)goBack:(id)sender{
     if(mode == 0){
-        [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+        //No need to set nextPopWillBeMenu because we aren't popping TO rootviewcont, so it weeds it out
+        [self.navigationController popViewControllerAnimated: YES];
     }else if(mode == 1){
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-        [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+        AppDelegate *del = [[UIApplication sharedApplication] delegate];
+        ChooseLevelScene *chooseLevelScene = (ChooseLevelScene *)[del navController].delegate;   // Not actually existing
+        [chooseLevelScene setNextPopWillNotBeMenu: YES];    // Need to set because we are popping back TO rootviewcont.
+        [self.navigationController popViewControllerAnimated: YES];
     }else{
-        [lsvc dismissViewControllerAnimated:YES completion:^(void){}];
+        [self.navigationController popViewControllerAnimated: YES];
     }
 }
 
@@ -150,14 +153,17 @@
         [alert release];
     }else{
         if(mode == 0){
-            [mms createWithWidth:width height:height];
-            [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+            [cls createWithWidth:width height:height];
+            [self.navigationController popToRootViewControllerAnimated: YES];
         }else if(mode == 1){
             [les saveWithFileName: [NSString stringWithFormat:@"%@.txt", text]];
-            [rvc dismissViewControllerAnimated:YES completion:^(void){}];
+            AppDelegate *del = [[UIApplication sharedApplication] delegate];
+            ChooseLevelScene *chooseLevelScene = (ChooseLevelScene *)[del navController].delegate;   // Not actually existing
+            [chooseLevelScene setNextPopWillNotBeMenu: YES];                                         // in mode = 1
+            [self.navigationController popViewControllerAnimated: YES];
         }else{
             [lsvc renameCustomLevel: text];
-            [lsvc dismissViewControllerAnimated:YES completion:^(void){}];
+            [self.navigationController popViewControllerAnimated: YES];
         }
     }
 }
@@ -169,7 +175,8 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad{
-    [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     if(fileNameSuggest != nil)
         [self.levelName setText: fileNameSuggest];
     [self.titleLabel setFont: [UIFont fontWithName:@"Krungthep" size: 36.0f]];
@@ -186,6 +193,7 @@
         [self.levelHeight setFrame: CGRectMake(125, 107, 50, 31)];
         [self.saveButton setFrame: CGRectMake(190, 60, 84, 37)];
         [self.backButton setFrame: CGRectMake(190, 106, 72, 37)];
+        [self.saveOverHintLabel setHidden: YES];
     }else if(mode == 1){
         [self.levelName becomeFirstResponder];
         [self.titleLabel setText: @"Save Level"];
@@ -203,7 +211,10 @@
         [self.levelWidthLabel setHidden: YES];
         [self.levelHeightLabel setHidden: YES];
         [self.mapSizeHintLabel setHidden: YES];
+        [self.saveOverHintLabel setHidden: YES];
     }
+    [super viewDidLoad];
+
 }
 
 - (void)viewDidUnload{

@@ -16,6 +16,7 @@
     NSTimeInterval timeScore;
     NSString *levelString;
     int movesScore;
+    BOOL levelCustom;
     
     CCMenu *menu;
 }
@@ -25,7 +26,7 @@
 
 @property (nonatomic, retain) CCMenu *menu;
 
-- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time level:(NSString *)level;
+- (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time level:(NSString *)level custom:(BOOL)custom;
 
 - (void)toMenu;
 - (void)toAchievements;
