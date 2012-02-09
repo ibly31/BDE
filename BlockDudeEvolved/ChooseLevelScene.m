@@ -24,6 +24,10 @@
         self.levelEditorMode = lem;
         self.nextPopWillNotBeMenu = NO;
         
+        CCLayerColor *lc = [[CCLayerColor alloc] initWithColor:ccc4(125, 125, 125, 255) width:480 height:320];
+        [self addChild: lc];
+        [lc release];
+        
         AppDelegate *del = [[UIApplication sharedApplication] delegate];
         UINavigationController *navController = [del navController];
         [navController setDelegate: self];
@@ -62,7 +66,7 @@
     }
 }
 
-- (void)toMenu{
+- (void)toMenu{    
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f];
 }
 
@@ -82,7 +86,7 @@
 }
 
 - (void)playLevel:(NSString *)level custom:(BOOL)custom{
-    GameScene *gs = [[GameScene alloc] initWithLevel: level custom:custom];
+    GameScene *gs = [[GameScene alloc] initWithLevel: level custom:custom testingLevel:NO];
     [[CCDirector sharedDirector] pushScene: gs];//[CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
     self.nextPopWillNotBeMenu = YES;  // since there is no way to tell that the pop will be a "back" button (upper left

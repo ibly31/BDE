@@ -135,8 +135,7 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -158,6 +157,14 @@
     }else{
         if(indexPath.section == 0){
             cell.textLabel.text = [NSString stringWithFormat:@"Level %i", indexPath.row + 1];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            AppDelegate *del = [[UIApplication sharedApplication] delegate];
+            GKAchievement *achievement = [[del gameCenterModel] getAchievementForIdentifier: [NSString stringWithFormat:@"Level%iComplete", indexPath.row + 1]];
+            if(achievement != nil){
+                if(achievement.isCompleted){
+                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                }
+            }
         }else{
             cell.textLabel.text = [customLevelArray objectAtIndex: indexPath.row];
         }

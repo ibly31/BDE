@@ -9,6 +9,7 @@
 #import "LevelMenuScene.h"
 #import "LevelEditorScene.h"
 #import "MainMenuScene.h"
+#import "GameScene.h"
 
 @implementation LevelMenuScene
 @synthesize pauseLabel;
@@ -31,18 +32,23 @@
         CCMenuItemLabel *saveLevelLabel = [[CCMenuItemLabel alloc] initWithLabel:saveLevel target:self selector:@selector(saveLevel)];
         [saveLevelLabel setPosition: ccp(0, -40)];
         
+        CCLabelTTF *testLevel = [[CCLabelTTF alloc] initWithString:@"Test Level" fontName:@"Krungthep" fontSize:32];
+        CCMenuItemLabel *testLevelLabel = [[CCMenuItemLabel alloc] initWithLabel:testLevel target:self selector:@selector(testLevel)];
+        [testLevelLabel setPosition: ccp(0, -80)];
+        
         CCLabelTTF *exitGame = [[CCLabelTTF alloc] initWithString:@"Exit Editor" fontName:@"Krungthep" fontSize:32];
         CCMenuItemLabel *exitGameLabel = [[CCMenuItemLabel alloc] initWithLabel:exitGame target:self selector:@selector(exitGame)];
-        [exitGameLabel setPosition: ccp(0, -80)];
+        [exitGameLabel setPosition: ccp(0, -120)];
         
-        self.menu = [CCMenu menuWithItems:returnToEditorLabel,saveLevelLabel, exitGameLabel, nil];
+        self.menu = [CCMenu menuWithItems:returnToEditorLabel, saveLevelLabel, testLevelLabel, exitGameLabel, nil];
         [self addChild: menu];
         
         [returnToEditor release];
         [returnToEditorLabel release];
         [exitGame release];
         [exitGameLabel release];
-        
+        [testLevel release];
+        [testLevelLabel release];
     }
     return self;
 }
@@ -62,12 +68,18 @@
     [lesUpper promptSave];
 }
 
+- (void)testLevel{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    GameScene *gs = [[GameScene alloc] initWithLevel:[lesUpper currentMap] custom:YES testingLevel:YES];
+    [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
+    [gs release];
+}
+
 - (void)exitGame{
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    [[CCDirector sharedDirector] popScene];
-    CCScene *mms = [[MainMenuScene alloc] init];
-    [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:mms]];
-    [mms release];
+    [[CCDirector sharedDirector] popScene]; // Back to LES
+    [[CCDirector sharedDirector] popScene]; // Back to CLS
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f]; // Back to MMS
 }
 
 @end

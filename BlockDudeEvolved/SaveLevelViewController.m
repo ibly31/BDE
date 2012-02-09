@@ -71,7 +71,7 @@
             return NO;
         }else if([string length] == 0){
             return YES;
-        }else if([levelName.text length] > 19){
+        }else if([levelName.text length] > 15){
             return NO;
         }else{
             string = [string lowercaseString];
@@ -143,12 +143,12 @@
     int width = [[levelWidth text] intValue];
     int height = [[levelHeight text] intValue];
     
-    if(mode != 0 && ([text length] == 0 || [text length] > 20)){
+    if(mode != 0 && ([text length] == 0 || [text length] > 16)){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your level name is invalid." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
         [alert show];
         [alert release];
-    }else if(mode == 0 && (width < 3 || width > 25 || height < 3 || height > 25)){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your level's dimensions are invalid. They must be between\n3x3 and 25x25" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+    }else if(mode == 0 && (width < 5 || width > 30 || height < 5 || height > 30)){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your level's dimensions are invalid. They must be between\n5x5 and 30x30" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
         [alert show];
         [alert release];
     }else{

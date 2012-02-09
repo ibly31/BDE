@@ -89,8 +89,8 @@
 	//
 	// return YES for the supported orientations
 	
-	return ( UIInterfaceOrientationIsLandscape( interfaceOrientation ) );
-	
+	//return ( UIInterfaceOrientationIsLandscape( interfaceOrientation ) );
+	return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 #else
 #error Unknown value in GAME_AUTOROTATION
 	
@@ -146,6 +146,11 @@
     // e.g. self.myOutlet = nil;
 }
 
+
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [super viewWillAppear:animated];
+}
 
 - (void)dealloc {
     [super dealloc];

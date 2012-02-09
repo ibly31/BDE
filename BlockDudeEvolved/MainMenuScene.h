@@ -20,6 +20,7 @@
 - (void)selectLevel;
 - (void)editLevel;
 - (void)options;
+- (void)levelBrowser;
 - (void)toLeaderboards;
 - (void)toAchievements;
 

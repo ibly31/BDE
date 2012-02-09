@@ -308,7 +308,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string type="base64-UTF8" key="IBUIText">TWFwIHNpemUgaXMgbGltaXRlZCB0bwoyNXgyNS4gVGFwICJDcmVhdGUiIHRvCnN0YXJ0IGVkaXRpbmcu
+						<string type="base64-UTF8" key="IBUIText">TWFwIHNpemUgaXMgbGltaXRlZCB0bwozMHgzMC4gVGFwICJDcmVhdGUiIHRvCnN0YXJ0IGVkaXRpbmcu
 Cg</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>

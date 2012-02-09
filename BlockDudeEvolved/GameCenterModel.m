@@ -61,17 +61,24 @@
 - (void)authenticatePlayer{
     GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
     [localPlayer authenticateWithCompletionHandler:^(NSError *error){
-        if (localPlayer.isAuthenticated){
-            NSLog(@"Successful Authentication");
+        if(localPlayer.isAuthenticated){
+            [self loadAchievements];
         }
     }];
+}
+
+- (BOOL)isAuthenticated{
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    return localPlayer.isAuthenticated;
 }
 
 - (void)loadAchievements{
     [GKAchievement loadAchievementsWithCompletionHandler:^(NSArray *achievements, NSError *error){
          if (error == nil){
-             for (GKAchievement* achievement in achievements)
+             for (GKAchievement* achievement in achievements){
                  [achievementsDict setObject: achievement forKey: achievement.identifier];
+                 NSLog(@"Successfully loaded achievement: %@", achievement.identifier);
+             }
              
          }else{
              NSLog(@"Could not load any achievements");

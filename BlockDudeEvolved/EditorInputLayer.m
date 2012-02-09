@@ -61,14 +61,14 @@
         
         panMode = YES;
         
-        self.panOrDraw = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(288, 256, 32, 32)];
+        self.panOrDraw = [[CCSprite alloc] initWithFile:@"Gui.png" rect:CGRectMake(320, 256, 32, 32)];
         CCMenuItemSprite *panOrDrawItem = [CCMenuItemSprite itemFromNormalSprite:panOrDraw selectedSprite:nil block:^(id sender){
             if(panMode){
                 panMode = NO;
-                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(320, 256, 32, 32)]];
+                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(288, 256, 32, 32)]];
             }else{
                 panMode = YES;
-                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(288, 256, 32, 32)]];
+                [panOrDraw setDisplayFrame: [CCSpriteFrame frameWithTexture:[panOrDraw texture] rect:CGRectMake(320, 256, 32, 32)]];
             }
         }];
         [panOrDrawItem setPosition: ccp(118,32)];

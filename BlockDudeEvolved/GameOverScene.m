@@ -9,7 +9,7 @@
 #import "GameOverScene.h"
 #import "MainMenuScene.h"
 #import "AppDelegate.h"
-#import <GameKit/GameKit.h>
+#import "GameScene.h"
 #import "RootViewController.h"
 
 @implementation GameOverScene
@@ -82,17 +82,21 @@
         
         CCSprite *menuSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(0, 0, 48, 48)];
         CCMenuItemSprite *menuItem = [CCMenuItemSprite itemFromNormalSprite:menuSprite selectedSprite:nil target:self selector:@selector(toMenu)];
-        [menuItem setPosition: ccp(210, 64)]; // 180, 64
+        [menuItem setPosition: ccp(180, 64)]; // 180, 64
+        
+        CCSprite *replaySprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(384, 0, 48, 48)];
+        CCMenuItemSprite *replayItem = [CCMenuItemSprite itemFromNormalSprite:replaySprite selectedSprite:nil target:self selector:@selector(toReplay)];
+        [replayItem setPosition: ccp(240, 64)];
                 
         CCSprite *achieveSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect:CGRectMake(96, 0, 48, 48)];
         CCMenuItemSprite *achieveItem = [CCMenuItemSprite itemFromNormalSprite:achieveSprite selectedSprite:nil target:self selector:@selector(toAchievements)];
-        [achieveItem setPosition: ccp(270, 64)]; // 240, 64
+        [achieveItem setPosition: ccp(300, 64)]; // 240, 64
         
         /*CCSprite *leaderSprite = [[CCSprite alloc] initWithFile:@"Buttons.png" rect: CGRectMake(48, 0, 48, 48)];
         CCMenuItemSprite *leaderItem = [CCMenuItemSprite itemFromNormalSprite:leaderSprite selectedSprite:nil target:self selector:@selector(toLeaderboards)];
         [leaderItem setPosition: ccp(300, 64)];*/
         
-        self.menu = [CCMenu menuWithItems:menuItem, achieveItem, nil];
+        self.menu = [CCMenu menuWithItems:menuItem, achieveItem, replayItem, nil];
         [menu setPosition: ccp(0.0f, 0.0f)];
         [self addChild: menu];
         
@@ -104,6 +108,13 @@
     MainMenuScene *mms = [[MainMenuScene alloc] init];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:mms]];
     [mms release];
+}
+
+- (void)toReplay{
+    [[CCDirector sharedDirector] popScene];
+    GameScene *gs = [[GameScene alloc] initWithLevel:levelString custom:levelCustom testingLevel:NO];
+    [[CCDirector sharedDirector] pushScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
+    [gs release];
 }
 
 - (void)toAchievements{

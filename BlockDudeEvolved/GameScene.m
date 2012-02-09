@@ -29,12 +29,14 @@ enum {
 
 @synthesize currentLevel;
 @synthesize currentCustom;
+@synthesize testingLevel;
 
-- (id)initWithLevel:(NSString *)level custom:(BOOL)custom{
+- (id)initWithLevel:(NSString *)level custom:(BOOL)custom testingLevel:(BOOL)testing{
     self = [super init];
     if(self){
         self.currentLevel = level;
         self.currentCustom = custom;
+        self.testingLevel = testing;
         
         moves = 0;
         startInterval = [[NSDate date] timeIntervalSince1970];
@@ -55,7 +57,7 @@ enum {
             NSLog(@"Never set playerlocation. Defaulting to 1,1");
             playerX = 1; playerY = 1;
         }
-                                                                                  // 96 = 32x3
+        // 96 = 32x3
         self.player = [[CCSprite alloc] initWithFile:@"Original.png" rect:CGRectMake(96, 0, 32, 32)];
         [player setPosition: ccp(240.0f, 160.0f)];
         [self addChild: player];
@@ -73,10 +75,10 @@ enum {
         [self addChild: timeLabel];
         
         /*self.moveLabel = [[CCLabelAtlas alloc] initWithString:@"Moves: 0" charMapFile:@"FontOutline.png" itemWidth:16 itemHeight:24 startCharMap:'-'];
-        [moveLabel setColor: ccc3(255, 255, 255)];
-        [moveLabel setAnchorPoint: ccp(1.0f, 1.0f)];
-        [moveLabel setPosition: ccp(360, 304)];
-        [self addChild: moveLabel];*/
+         [moveLabel setColor: ccc3(255, 255, 255)];
+         [moveLabel setAnchorPoint: ccp(1.0f, 1.0f)];
+         [moveLabel setPosition: ccp(360, 304)];
+         [self addChild: moveLabel];*/
         
         int controlScheme = [[NSUserDefaults standardUserDefaults] integerForKey: @"ControlScheme"];
         if(controlScheme == 1)
@@ -85,7 +87,7 @@ enum {
             self.inputLayer = (CCLayer *)[[InputLayerButtons alloc] init];
         else
             NSLog(@"Control scheme != 1 or 2");
-    
+        
         [self addChild: inputLayer];
         
         [self schedule:@selector(updateTimeLabel) interval:.01f];
@@ -100,9 +102,14 @@ enum {
     
     NSTimeInterval sinceSeventy = [[NSDate date] timeIntervalSince1970];
     
-    GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval level:currentLevel custom:currentCustom];
-    [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gos]];
-    [gos release];
+    if(testingLevel){
+        [[CCDirector sharedDirector] popScene]; // Back to LMS
+        [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f]; // Back to LES
+    }else{
+        GameOverScene *gos = [[GameOverScene alloc] initWithMoves:moves timeTaken:sinceSeventy - startInterval level:currentLevel custom:currentCustom];
+        [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gos]];
+        [gos release];
+    }
 }
 
 - (void)moveInDirection:(int)direction{

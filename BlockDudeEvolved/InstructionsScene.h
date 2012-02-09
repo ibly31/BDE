@@ -8,14 +8,34 @@
 
 #import "cocos2d.h"
 
-@interface InstructionsScene : CCScene{
+@interface InstructionsScene : CCLayer{
     CCMenu *menu;
+    
+    CCLabelTTF *instructionLabel;
+    CCSprite *instructionBackground;
+    
+    NSArray *slideTexts;
+    int currentSlide;
+    
+    CCSprite *blockDude;
+    CCSprite *controls;
+    CCSprite *door;
+    CCSprite *brick;
+    CCSprite *block;
+    CCSprite *blank;
+    CCSprite *editorBackground;
+    
+    CCSprite *panOrDraw;
 }
 
-- (void)toMenu;
-- (void)instructGame;
-- (void)instructEditor;
++ (id)scene;
 
 @property (nonatomic, retain) CCMenu *menu;
+@property (nonatomic, retain) CCSprite *instructionBackground;
+@property (nonatomic, retain) CCLabelTTF *instructionLabel;
+@property (nonatomic, retain) NSArray *slideTexts;
+
+- (void)toMenu;
+- (void)advanceSlide;
 
 @end

@@ -31,9 +31,11 @@
     CGPoint currentBlockFall;
 
     int playerX,playerY;
+    
+    BOOL testingLevel;
 }
 
-- (id)initWithLevel:(NSString *)level custom:(BOOL)custom;
+- (id)initWithLevel:(NSString *)level custom:(BOOL)custom testingLevel:(BOOL)testing;
 
 @property (nonatomic, retain) TileMap *map;
 @property (nonatomic, retain) CCLayer *inputLayer;
@@ -44,6 +46,7 @@
 @property (nonatomic, retain) CCSprite *carryingBlock;
 @property (nonatomic, retain) NSString *currentLevel;
 @property BOOL currentCustom;
+@property BOOL testingLevel;
 @property int playerX,playerY;
 
 - (void)updateTimeLabel;

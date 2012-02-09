@@ -35,6 +35,11 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
+    if([[NSUserDefaults standardUserDefaults] objectForKey: @"FirstTimeHint"] == nil){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeHint"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
 	if(![CCDirector setDirectorType:kCCDirectorTypeDisplayLink])
 		[CCDirector setDirectorType:kCCDirectorTypeDefault];
 	
@@ -45,7 +50,7 @@
 	
     self.navController = [[UINavigationController alloc] initWithRootViewController: viewController];
     [navController setNavigationBarHidden:YES];
-    [navController.navigationBar setTintColor:[UIColor blackColor]];
+    [navController.navigationBar setTintColor:[UIColor darkGrayColor]];
     NSDictionary *titleTextAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[UIFont fontWithName:@"Krungthep" size:18.0f], nil]
                                                                       forKeys:[NSArray arrayWithObjects:UITextAttributeFont, nil]];
     [navController.navigationBar setTitleTextAttributes: titleTextAttributes];
@@ -55,13 +60,13 @@
 	
 	[director setOpenGLView:glView];
 	
-	if( ! [director enableRetinaDisplay:YES] )
+	if(![director enableRetinaDisplay:YES])
 		CCLOG(@"Retina Display Not supported");
 	
 	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
 	
 	[director setAnimationInterval:1.0/60];
-	[director setDisplayFPS:YES];
+	//[director setDisplayFPS:YES];
 	
     [viewController setView:glView];
 	

@@ -22,6 +22,9 @@
 
 - (void)reportLeaderboardCategory:(NSString *)category score:(int64_t)score;
 
+- (BOOL)isAuthenticated;
+- (void)loadAchievements;
+
 - (void)openAchievementViewer;
 - (void)openLeaderboardViewer;
 - (void)openLeaderboardViewerWithCategory:(NSString *)category;

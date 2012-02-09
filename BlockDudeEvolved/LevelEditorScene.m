@@ -73,6 +73,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [NSString stringWithFormat:@"%@/%@", (NSString *)[paths objectAtIndex:0], fileName];
     NSString *data = [map dataString];
+
     [data writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 

@@ -36,7 +36,14 @@
         CCMenuItemLabel *optionsLabel = [[CCMenuItemLabel alloc] initWithLabel:options target:self selector:@selector(options)];
         [optionsLabel setPosition: ccp(0, -80)];*/
         
-        CCLabelTTF *exitGame = [[CCLabelTTF alloc] initWithString:@"Exit Game" fontName:@"Krungthep" fontSize:32];
+        CCLabelTTF *exitGame;
+        
+        if(gsUpper.testingLevel){
+            exitGame = [[CCLabelTTF alloc] initWithString:@"Back to Editor" fontName:@"Krungthep" fontSize:32];
+        }else{
+            exitGame = [[CCLabelTTF alloc] initWithString:@"Exit Game" fontName:@"Krungthep" fontSize:32];
+        }
+        
         CCMenuItemLabel *exitGameLabel = [[CCMenuItemLabel alloc] initWithLabel:exitGame target:self selector:@selector(exitGame)];
         [exitGameLabel setPosition: ccp(0, -80)];
         
@@ -71,18 +78,25 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     NSString *currentLevel = [gsUpper currentLevel];
     BOOL currentCustom = [gsUpper currentCustom];
+    BOOL currentTesting = [gsUpper testingLevel];
+    
     [[CCDirector sharedDirector] popScene];
-    GameScene *gs = [[GameScene alloc] initWithLevel: currentLevel custom:currentCustom];
+    GameScene *gs = [[GameScene alloc] initWithLevel: currentLevel custom:currentCustom testingLevel:currentTesting];
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:gs]];
     [gs release];
 }
 
 - (void)exitGame{
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    [[CCDirector sharedDirector] popScene];
-    CCScene *mms = [[MainMenuScene alloc] init];
-    [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:0.5f scene:mms]];
-    [mms release];
-}
+    if(gsUpper.testingLevel){
+        [[CCDirector sharedDirector] popScene]; // Back to GameScene
+        [[CCDirector sharedDirector] popScene]; // Back to LMS
+        [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f]; // Back to LES
+    }else{
+        [[CCDirector sharedDirector] popScene]; // Back to GameScene
+        [[CCDirector sharedDirector] popScene]; // Back to CLS
+        [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:0.5f]; // Back to MMS
 
+    }
+}
 @end

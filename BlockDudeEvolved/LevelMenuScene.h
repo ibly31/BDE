@@ -15,7 +15,6 @@
     CCMenu *menu;
 
     LevelEditorScene *lesUpper;
-
 }
 
 - (id)initWithLevelEditorScene:(LevelEditorScene *)les;
@@ -26,6 +25,7 @@
 
 - (void)returnToEditor;
 - (void)saveLevel;
+- (void)testLevel;
 - (void)exitGame;
 
 @end

@@ -29,6 +29,7 @@
 - (id)initWithMoves:(int)moves timeTaken:(NSTimeInterval)time level:(NSString *)level custom:(BOOL)custom;
 
 - (void)toMenu;
+- (void)toReplay;
 - (void)toAchievements;
 - (void)toLeaderboards;
 

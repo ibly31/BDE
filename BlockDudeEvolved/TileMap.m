@@ -17,7 +17,7 @@
 
 - (id)init{
     animate = [[NSUserDefaults standardUserDefaults] boolForKey:@"SpeedMode"];
-    self = [super initWithFile:@"Original.png" capacity:560];   // 28*20, max size
+    self = [super initWithFile:@"Original.png" capacity:900];   // 30*30, max size
     if(self){
         
     }
@@ -40,7 +40,7 @@
 	}else{
         string = [string stringByReplacingOccurrencesOfString:@"\n" withString:@","];
         NSArray *lineStrings = [string componentsSeparatedByString:@","];
-        if([lineStrings count] >= 2){
+        if([lineStrings count] >= 27){ // 5*5
             mapWidth = [[lineStrings objectAtIndex: 0] intValue];
             mapHeight = [[lineStrings objectAtIndex: 1] intValue];
             
@@ -57,7 +57,7 @@
             }
             
             int index = 2;
-            if(mapWidth * mapHeight == [lineStrings count] - 2){    // minus two for the width and height "header"
+            if(mapWidth * mapHeight == [lineStrings count] - 2){    // minus four for the header
                 for(int y = 0; y < mapHeight; y++){
                     for(int x = 0; x < mapWidth; x++){
                         int value = [[lineStrings objectAtIndex: index] intValue];
@@ -83,7 +83,7 @@
                 NSLog(@"Mapwidth * mapheight does not equal linestrings count");
             }
         }else{
-            NSLog(@"Linestrings count < 2");
+            NSLog(@"Linestrings count < 25");
             self = nil;
         }
     }
@@ -105,7 +105,7 @@
 }
 
 - (NSString *)dataString{
-    NSMutableString *string = [[NSMutableString alloc] initWithFormat:@"%i,%i,", mapWidth, mapHeight];
+    NSMutableString *string = [[NSMutableString alloc] initWithFormat:@"%i\n%i\n", mapWidth, mapHeight];
     for(int y = 0; y < mapHeight; y++){
         for(int x = 0; x < mapWidth; x++){
             int whichTile = [self tileAtX:x Y:y];
@@ -152,7 +152,7 @@
     
     if([parent_ class] == [GameScene class]){
         if(animated)
-            [self runAction: [CCMoveTo actionWithDuration:0.05f position: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)]];
+            [self runAction: [CCMoveTo actionWithDuration:0.04f position: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)]];
         else
             [self setPosition: ccp((flippedLocation.x * -32.0f) + 240.0f, (flippedLocation.y * -32.0f) + 176.0f)];
     }else{
